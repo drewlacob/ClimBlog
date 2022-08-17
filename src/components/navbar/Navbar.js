@@ -12,13 +12,14 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import {Link} from 'react-router-dom';
 
 const pages = ['Add Experience +', 'Filters'];
-const settings = ['Profile', 'Settings', 'Logout'];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -34,6 +35,15 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  }
+
+  const handleLogOut = () => {
+    setAnchorElUser(null);
+    setIsLoggedIn(false);
+  }
 
   return (
     <AppBar position="sticky">
@@ -125,9 +135,10 @@ const ResponsiveAppBar = () => {
               </Button>
             ))}
           </Box>
-
+          {isLoggedIn &&
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+
+            <Tooltip title="Options">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
@@ -138,23 +149,36 @@ const ResponsiveAppBar = () => {
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: 'top',
-                horizontal: 'right',
+                horizontal: 'middle',
               }}
               keepMounted
               transformOrigin={{
                 vertical: 'top',
-                horizontal: 'right',
+                horizontal: 'middle',
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+                <MenuItem component={Link} to='/profile' onClick={handleCloseUserMenu}>Profile</MenuItem>
+                <MenuItem component={Link} to='/settings' onClick={handleCloseUserMenu}>Settings</MenuItem>
+                <MenuItem component={Link} to='/' onClick={handleLogOut}>Logout</MenuItem>
             </Menu>
           </Box>
+          }
+          {!isLoggedIn && 
+          <Box sx={{ flexGrow: 0 }}>
+          <Button
+                key='sign-in'
+                variant="contained"
+                onClick={handleLogin}
+                component={Link}
+                to='/signin'
+                sx={{ my: 2, backgroundColor: '#a7bbc4!important', color: 'white', display: 'block', mr: 1 }}
+              >
+                Sign In
+              </Button>
+          </Box>
+          }
         </Toolbar>
       </Container>
     </AppBar>
