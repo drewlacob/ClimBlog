@@ -1,8 +1,21 @@
 import React from 'react'
+import ExperienceCard from '../components/experienceCard/experienceCard';
+import Stack from '@mui/material/Stack';
 
 const Feed = () => {
   return (
-    <div>THIS IS YOUR FEED</div>
+    <Stack
+    direction="column"
+    justifyContent="flex-start"
+    alignItems="center"
+    spacing={2}
+    mt={2}
+    >
+      <ExperienceCard/>
+      <ExperienceCard/>
+      <ExperienceCard/>
+      <ExperienceCard/>
+    </Stack>
   )
 }
 
