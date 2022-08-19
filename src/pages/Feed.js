@@ -15,6 +15,10 @@ const Feed = () => {
       <ExperienceCard/>
       <ExperienceCard/>
       <ExperienceCard/>
+      <ExperienceCard/>
+      <ExperienceCard/>
+      <ExperienceCard/>
+      <ExperienceCard/>
     </Stack>
   )
 }

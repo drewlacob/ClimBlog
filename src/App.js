@@ -6,6 +6,7 @@ import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Feed from './pages/Feed';
 import SignIn from './pages/SignIn';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
         </Routes>
       </div>
+      <Footer/>
     </>
   );
 }
