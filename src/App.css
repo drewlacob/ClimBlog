@@ -12,4 +12,17 @@
     height: 5em;
     margin-bottom: -1px;
     margin-top: 1em;
+    position: relative;
+    left: 0;
+    bottom: 0;
+  }
+
+  .page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .content-wrap {
+    flex: 1;
   }

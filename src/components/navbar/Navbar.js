@@ -11,8 +11,9 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import Icon from '@mui/material/Icon';
 import {Link} from 'react-router-dom';
+import Logo from '../Logo';
 
 const pages = ['Add Experience +', 'Filters'];
 
@@ -49,7 +50,7 @@ const ResponsiveAppBar = () => {
     <AppBar position="sticky">
       <Container maxWidth="false">
         <Toolbar>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+        <Icon sx={{display: { xs: 'none', md: 'flex' }, minWidth: 50, minHeight: 65, mr: 1}}><Logo/></Icon>
           <Typography
             variant="h6"
             noWrap
@@ -104,7 +105,7 @@ const ResponsiveAppBar = () => {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <Icon sx={{ display: { xs: 'flex', md: 'none' }, minWidth: 50, minHeight: 65, mr: 1}}><Logo/></Icon>
           <Typography
             variant="h5"
             noWrap
