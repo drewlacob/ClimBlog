@@ -95,24 +95,24 @@ const ResponsiveAppBar = () => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: 'block', md: 'none', paddingLeft: '0px' },
               }}
             >
-              {pages.map((page) => (
+              {pages.map((page) => (            //fix this shit
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <Icon sx={{ display: { xs: 'flex', md: 'none' }, minWidth: 50, minHeight: 65, mr: 1}}><Logo/></Icon>
+          <Icon sx={{ display: { xs: 'flex', md: 'none' }, minWidth: 50, minHeight: 65, mr: 0.5}}><Logo/></Icon>
           <Typography
             variant="h5"
             noWrap
             component="a"
             href=""
             sx={{
-              mr: 2,
+              mr: 1,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
               fontFamily: 'monospace',
@@ -138,12 +138,9 @@ const ResponsiveAppBar = () => {
           </Box>
           {isLoggedIn &&
           <Box sx={{ flexGrow: 0 }}>
-
-            <Tooltip title="Options">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
-            </Tooltip>
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -174,7 +171,7 @@ const ResponsiveAppBar = () => {
                 onClick={handleLogin}
                 component={Link}
                 to='/signin'
-                sx={{ my: 2, backgroundColor: '#a7bbc4!important', color: 'white', display: 'block', mr: 1 }}
+                sx={{ my: 2, backgroundColor: '#a7bbc4!important', color: 'white', display: 'block', mr: 0 }}
               >
                 Sign In
               </Button>
