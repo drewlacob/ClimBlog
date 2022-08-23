@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -9,18 +9,21 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import Icon from '@mui/material/Icon';
 import {Link} from 'react-router-dom';
 import Logo from '../Logo';
+
+import { UserContext } from '../../UserContext';
 
 const pages = ['Add Experience +', 'Filters'];
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  
+  const { isLoggedIn } = React.useContext(UserContext);
+  const [isLoggedInValue, setIsLoggedInValue] = isLoggedIn;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -38,12 +41,12 @@ const ResponsiveAppBar = () => {
   };
 
   const handleLogin = () => {
-    setIsLoggedIn(true);
+    setIsLoggedInValue(true);
   }
 
   const handleLogOut = () => {
     setAnchorElUser(null);
-    setIsLoggedIn(false);
+    setIsLoggedInValue(false);
   }
 
   return (
@@ -54,8 +57,8 @@ const ResponsiveAppBar = () => {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            component={Link}
+            to='/'
             sx={{
               mr: '1',
               display: { xs: 'none', md: 'flex' },
@@ -109,8 +112,8 @@ const ResponsiveAppBar = () => {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href=""
+            component={Link}
+            to='/'
             sx={{
               mr: 1,
               display: { xs: 'flex', md: 'none' },
@@ -136,7 +139,7 @@ const ResponsiveAppBar = () => {
               </Button>
             ))}
           </Box>
-          {isLoggedIn &&
+          {isLoggedInValue &&
           <Box sx={{ flexGrow: 0 }}>
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -163,7 +166,7 @@ const ResponsiveAppBar = () => {
             </Menu>
           </Box>
           }
-          {!isLoggedIn && 
+          {!isLoggedInValue && 
           <Box sx={{ flexGrow: 0 }}>
           <Button
                 key='sign-in'

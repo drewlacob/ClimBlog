@@ -7,6 +7,8 @@ import Settings from './pages/Settings';
 import Feed from './pages/Feed';
 import SignIn from './pages/SignIn/SignIn';
 import Footer from './components/Footer';
+
+import { UserProvider } from './UserContext';
 //https://tanarindev.medium.com/how-to-easily-store-and-display-user-images-in-react-68962e16fe49
 //https://github.com/audiolion/react-auth-provider
 
@@ -19,11 +21,10 @@ import Footer from './components/Footer';
 
 function App() {
   return (
+    <UserProvider>
     <div className="page-container">
       <Navbar />
       <div className="content-wrap">
-        
-        {/* <div className="inner-container"> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
@@ -31,10 +32,10 @@ function App() {
           <Route path="/feed" element={<Feed />} />
           <Route path="/signin" element={<SignIn />} />
         </Routes>
-        {/* </div> */}
       </div>
       <Footer/>
     </div>
+    </UserProvider>
   );
 }
 
