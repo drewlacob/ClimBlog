@@ -1,8 +1,19 @@
 import React from 'react'
 
+import { UserContext } from '../UserContext';
+import GuestHome from '../components/GuestHome';
+import Feed from './Feed';
+
 const Home = () => {
+  const { isLoggedIn } = React.useContext(UserContext);
+  const [isLoggedInValue] = isLoggedIn;
+
   return (
-    <div>Sign in to view your feed!</div>
+    <div>
+    {!isLoggedInValue && <GuestHome/>}
+    {isLoggedInValue && <Feed/>}
+    </div>
+
   )
 }
 

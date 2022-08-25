@@ -12,7 +12,8 @@ const ExperienceCard = () => {
   const [value, setValue] = React.useState(2);
 
   return (
-    
+    //add style of climb? ex: crimp, jug, hybrid 
+    //add location eg outdoor or the gym name
     <Card sx={{ maxWidth: '60%', backgroundColor: '#d3d3d3' }}>
     <Grid container direction="row" alignItems="center" justifyContent="center">
       <Grid item xs={12} s={7} md={5} l={6} sx={{mr: 5, ml: 2, mt: 2, mb: 2}}>

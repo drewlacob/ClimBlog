@@ -1,4 +1,5 @@
 import React from 'react';
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,8 +13,8 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Icon from '@mui/material/Icon';
 import {Link} from 'react-router-dom';
-import Logo from '../Logo';
 
+import Logo from '../Logo';
 import { UserContext } from '../../UserContext';
 
 const pages = ['Add Experience +', 'Filters'];
