@@ -1,0 +1,1 @@
+module.exports.apiURL = process.env.apiURL || process.env.REACT_APP_APIURL
