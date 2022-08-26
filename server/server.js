@@ -2,7 +2,10 @@ const express = require("express");
 const app = express();
 const bcrypt = require('bcryptjs')
 const config = require('./config.js');
+const cors = require('cors');
 
+app.use(express.json());
+app.use(cors());
 app.use(express.json());
 
 const port = 3000
@@ -19,6 +22,7 @@ const knex = require('knex')({
     }
   });
 //TODO: ADD JWT TO PROTECT ROUTES
+//https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs
 
 app.get('/login', async (req, res) => {
     //req = { email, password }

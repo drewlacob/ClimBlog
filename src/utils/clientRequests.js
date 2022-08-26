@@ -1,13 +1,13 @@
 import axios from "axios";
-import { apiURL } from "../config";
+//import { apiURL } from "../config";
 
 const api = axios.create({
-    baseURL: 'http://localhost:3000'
+    baseURL: 'http://localhost:3000' //CHANGE TO USE .ENV
 })
 //axios requests
 
 //createAccount
-module.exports.createAccount = async (email, password) => {
+export async function createAccount(email, password) {
     try {
         const response = api.post('/createAccount', {
             email, password
@@ -16,7 +16,6 @@ module.exports.createAccount = async (email, password) => {
     } catch (error) {
         console.log(error)
     }
-
 }
 
 //login

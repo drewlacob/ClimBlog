@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { Alert, AlertTitle }  from '@mui/material';
 
 import { validateEmail, validatePassword } from '../utils';
-//import { createAccount } from '../utils/clientRequests';
+import { createAccount } from '../utils/clientRequests';
 
 const Register = () => {
     const [hasError, setHasError] = React.useState('')
@@ -46,9 +46,7 @@ const Register = () => {
             return;
         }
 
-
-        console.log('Hitting that backend bb');
-
+        createAccount(email, password)
       };
 
   return (
