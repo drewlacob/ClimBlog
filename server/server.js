@@ -3,6 +3,7 @@ const app = express();
 const bcrypt = require('bcryptjs')
 const config = require('./config.js');
 const cors = require('cors');
+const { restart } = require("nodemon");
 
 app.use(express.json());
 app.use(cors());
@@ -24,13 +25,17 @@ const knex = require('knex')({
 //TODO: ADD JWT TO PROTECT ROUTES
 //https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs
 
-app.get('/login', async (req, res) => {
+//post so password sent in body and not url, safer
+app.post('/login', async (req, res) => {
     //req = { email, password }
     const user = await knex('users')
         .where({email: req.body.email})
         .select('*')
         .catch((err) => res.status(500).json(err));
-    
+
+    //if no user return
+    if(!user[0]) return res.status(401);
+
     if(bcrypt.compareSync(req.body.password, user[0].password))
         res.status(200).json(user[0]);
     else
@@ -46,7 +51,10 @@ app.post('/createAccount', async (req, res) => {
             ['user_id', 'email', 'password']
         )
         .then((user) => res.status(200).json(user[0]))
-        .catch((err) => res.status(500).json(err));
+        .catch((err) => {
+            if(err.code==="23505")
+                return res.status(500).json({error: 'Email already exists'})
+            res.status(500).json(err)});
 })
 
 app.get('/getUserProfile', async (req, res) => {

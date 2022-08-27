@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import {Link as routerLink} from 'react-router-dom';
 
+import { login } from '../../utils/clientRequests';
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -26,13 +28,21 @@ function Copyright(props) {
 }
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
     });
+
+    var email = data.get('email');
+    var password = data.get('password');
+    console.log('attempting login')
+    var user = await login(email, password);
+    // login(email, password);
+    console.log(user);
   };
 
   return (

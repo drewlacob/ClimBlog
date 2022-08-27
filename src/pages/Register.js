@@ -47,6 +47,9 @@ const Register = () => {
         }
 
         createAccount(email, password)
+        //set to var
+        //deal with email already exists response 
+        //redirect and set user context if account created
       };
 
   return (

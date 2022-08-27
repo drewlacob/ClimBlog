@@ -9,7 +9,7 @@ const api = axios.create({
 //createAccount
 export async function createAccount(email, password) {
     try {
-        const response = api.post('/createAccount', {
+        const response = await api.post('/createAccount', {
             email, password
         })
         return response;
@@ -19,3 +19,17 @@ export async function createAccount(email, password) {
 }
 
 //login
+export async function login(email, password) {
+    console.log('in client request login with email and password of ');
+    console.log(email);
+    console.log(password);
+    try {
+        const response = await api.post('/login', {
+            email, 
+            password
+        })
+        return response.data;
+    } catch (error) {
+        console.log(error)
+    }
+}
