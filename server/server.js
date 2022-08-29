@@ -3,11 +3,9 @@ const app = express();
 const bcrypt = require('bcryptjs')
 const config = require('./config.js');
 const cors = require('cors');
-const { restart } = require("nodemon");
 
 app.use(express.json());
 app.use(cors());
-app.use(express.json());
 
 const port = 3000
 
@@ -34,12 +32,12 @@ app.post('/login', async (req, res) => {
         .catch((err) => res.status(500).json(err));
 
     //if no user return
-    if(!user[0]) return res.status(401);
+    if(!user[0]) return res.status(401).json({err: "Invalid credentials"});
 
     if(bcrypt.compareSync(req.body.password, user[0].password))
         res.status(200).json(user[0]);
     else
-        res.status(400);
+        res.status(401).json({err: "Invalid credentials"});
 })
 
 app.post('/createAccount', async (req, res) => {
@@ -53,7 +51,7 @@ app.post('/createAccount', async (req, res) => {
         .then((user) => res.status(200).json(user[0]))
         .catch((err) => {
             if(err.code==="23505")
-                return res.status(500).json({error: 'Email already exists'})
+                return res.status(401).json({error: 'Email already exists'})
             res.status(500).json(err)});
 })
 

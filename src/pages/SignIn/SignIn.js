@@ -2,16 +2,18 @@ import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
+import { Alert, AlertTitle }  from '@mui/material';
 import {Link as routerLink} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
+import { validateEmail } from '../../utils';
+import { UserContext } from '../../UserContext';
 import { login } from '../../utils/clientRequests';
 
 function Copyright(props) {
@@ -28,21 +30,35 @@ function Copyright(props) {
 }
 
 export default function SignIn() {
+  const { isLoggedIn, userID } = React.useContext(UserContext);
+  const [, setIsLoggedInValue] = isLoggedIn;
+  const [, setUserIDValue] = userID;
+  const [hasLoginError, setHasLoginError] = React.useState('')
+  const nav = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-
     var email = data.get('email');
     var password = data.get('password');
-    console.log('attempting login')
+
+    if (!(password)){
+      setHasLoginError('Invalid credentials!');
+      return;
+    }
+    if(!validateEmail(email)){
+      setHasLoginError('Invalid email!')
+      return;
+    }
+
     var user = await login(email, password);
-    // login(email, password);
-    console.log(user);
+    if(typeof user === 'undefined' || typeof user.user_id === 'undefined')
+      setHasLoginError('Invalid credentials!')
+    else {
+      setIsLoggedInValue(true);
+      setUserIDValue(user.user_id);  
+      nav("/");
+    }
   };
 
   return (
@@ -94,10 +110,10 @@ export default function SignIn() {
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+              {hasLoginError && <Alert severity="error" variant="filled">
+                <AlertTitle>Error</AlertTitle>
+                    {hasLoginError}
+              </Alert>}
               <Button
                 type="submit"
                 fullWidth

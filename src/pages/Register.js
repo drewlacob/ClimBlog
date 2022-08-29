@@ -5,52 +5,57 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { Alert, AlertTitle }  from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import { validateEmail, validatePassword } from '../utils';
+import { UserContext } from '../UserContext';
 import { createAccount } from '../utils/clientRequests';
 
 const Register = () => {
-    const [hasError, setHasError] = React.useState('')
+  const { isLoggedIn, userID } = React.useContext(UserContext);
+  const [, setIsLoggedInValue] = isLoggedIn;
+  const [, setUserIDValue] = userID;
+  const [hasError, setHasError] = React.useState('')
+  const nav = useNavigate();
 
-    const handleSubmit = (event) => {
-        setHasError('');
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-          email: data.get('email'),
-          password: data.get('password'),
-          password2: data.get('password2')
-        });
-        var email = data.get('email');
-        var password = data.get('password');
-        var password2 = data.get('password2');
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    var email = data.get('email');
+    var password = data.get('password');
+    var password2 = data.get('password2');
 
-        if(!password || !password2 || !email){
-            setHasError('Please fill out all fields!');
-            return;
-        }
-        if (password !== password2){
-            setHasError('Passwords do not match!');
-            return;
-        }
-        if(password.length < 8){
-            setHasError('Password must be at least 8 characters!');
-            return;
-        }
-        if (!validatePassword(password)){
-            setHasError('Password must have at least one lowercase letter, one uppercase letter, and one number!');
-            return;
-        }
-        if(!validateEmail(email)){
-            setHasError('Invalid email!')
-            return;
-        }
+    if(!password || !password2 || !email){
+      setHasError('Please fill out all fields!');
+      return;
+    }
+    if (password !== password2){
+      setHasError('Passwords do not match!');
+      return;
+    }
+    if(password.length < 8){
+      setHasError('Password must be at least 8 characters!');
+      return;
+    }
+    if (!validatePassword(password)){
+      setHasError('Password must have at least one lowercase letter, one uppercase letter, and one number!');
+      return;
+    }
+    if(!validateEmail(email)){
+      setHasError('Invalid email!')
+      return;
+    }
 
-        createAccount(email, password)
-        //set to var
-        //deal with email already exists response 
-        //redirect and set user context if account created
-      };
+    var user = await createAccount(email, password)
+    
+    if(typeof user === 'undefined' || typeof user.user_id === 'undefined')
+      setHasError('Email already in use!')
+    else {
+      setIsLoggedInValue(true);
+      setUserIDValue(user.user_id);
+      nav("/");
+    }
+  };
 
   return (
     <Grid container direction="column" sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', my: 2}}>
