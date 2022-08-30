@@ -30,3 +30,30 @@ export async function login(email, password) {
         console.log(error)
     }
 }
+
+//update user
+export async function getUserProfile(userID) {
+    try {
+        const response = await api.post('/getUserProfile', {
+            user_id: userID
+        })
+        return response.data;
+    } catch (error) {
+        console.log(error)
+    }
+}
+//update user
+export async function updateUserProfile(userID, firstName, lastName, password) {
+    try {
+        console.log('in client req with ' + firstName + lastName + password)
+        const response = await api.post('/updateUserProfile', {
+            user_id: userID,
+            first_name: firstName,
+            last_name: lastName,
+            password: password
+        })
+        return response.data;
+    } catch (error) {
+        console.log(error)
+    }
+}

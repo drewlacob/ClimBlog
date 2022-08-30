@@ -55,9 +55,9 @@ app.post('/createAccount', async (req, res) => {
             res.status(500).json(err)});
 })
 
-app.get('/getUserProfile', async (req, res) => {
+app.post('/getUserProfile', async (req, res) => {
     //req = jwt, { user_id }
-    const user = await knex('users')
+    knex('users')
     .where({ user_id: req.body.user_id })
     .select('*')
     .then((user) => res.status(200).json(user[0]))
@@ -65,13 +65,18 @@ app.get('/getUserProfile', async (req, res) => {
 })
 
 app.post('/updateUserProfile', async (req, res) => {
-    //req = jwt, { user_id, first_name, last_name }
+    //req = jwt, { user_id, first_name, last_name, email, password }
+    let hashed;
+    if(req.body.password)
+        hashed = bcrypt.hashSync(req.body.password, 8);
     knex('users')
     .where({ user_id: req.body.user_id })
     .update({
         first_name: req.body.first_name,
-        last_name: req.body.last_name
-    }, ['user_id', 'first_name', 'last_name'])
+        last_name: req.body.last_name,
+        email: req.body.email,
+        password: hashed
+    }, ['user_id', 'first_name', 'last_name', 'email', 'password'])
     .then((user) => res.status(200).json(user[0]))
     .catch((err) => res.status(500).json(err));
 })
