@@ -10,10 +10,11 @@ import Feed from './pages/Feed';
 import SignIn from './pages/SignIn/SignIn';
 import Footer from './components/Footer';
 import Register from './pages/Register';
+import Filter from './pages/Filter';
+import CreatePost from './pages/CreatePost';
 
 import { UserProvider } from './UserContext';
 
-//setup axios
 //page transitions https://www.youtube.com/watch?v=YxLMAk2H3ns&ab_channel=CodeSnap
 //on scroll easy fade up https://www.youtube.com/watch?v=JcHLxzrsRS4&ab_channel=Arslan
 
@@ -30,6 +31,8 @@ function App() {
           <Route path="/feed" element={<Feed />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/filters" element={<Filter />} />
+          <Route path="/create-post" element={<CreatePost />} />
         </Routes>
       </div>
       <Footer/>

@@ -31,7 +31,7 @@ const Profile = () => {
     var password = data.get('password');
     var password2 = data.get('password2')
 
-    if(password.length < 8){
+    if(password && password.length < 8){
       setHasError('Password must be at least 8 characters long!')
       return;
     }

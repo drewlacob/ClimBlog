@@ -42,25 +42,25 @@ export default function SwipeableTemporaryDrawer() {
       onKeyDown={() => setIsOpen(false)}
     >
       <List>
-        <ListItem component={Link} to='/' sx={{color: 'rgba(0, 0, 0, 0.87)'}} key="Feed" disablePadding>
+        <ListItem key="Feed" component={Link} to='/' sx={{color: 'rgba(0, 0, 0, 0.87)'}} disablePadding>
             <ListItemButton>
                 <ListItemIcon><HomeIcon/></ListItemIcon>
                 <ListItemText>My Feed</ListItemText>
             </ListItemButton>
         </ListItem>
-        <ListItem key="Filters" disablePadding>
+        <ListItem key="Filters" component={Link} to='/filters' sx={{color: 'rgba(0, 0, 0, 0.87)'}} disablePadding>
             <ListItemButton>
                 <ListItemIcon><SortIcon/></ListItemIcon>
                 <ListItemText>Filters</ListItemText>
             </ListItemButton>
         </ListItem>
-        <ListItem key="Post" disablePadding>
+        <ListItem key="Post" component={Link} to='/create-post' sx={{color: 'rgba(0, 0, 0, 0.87)'}} disablePadding>
             <ListItemButton>
                 <ListItemIcon><CreateIcon/></ListItemIcon>
                 <ListItemText>Create Post</ListItemText>
             </ListItemButton>
         </ListItem>
-        <ListItem component={Link} to='/profile' sx={{color: 'rgba(0, 0, 0, 0.87)'}} key="Profile" disablePadding>
+        <ListItem key="Profile" component={Link} to='/profile' sx={{color: 'rgba(0, 0, 0, 0.87)'}} disablePadding>
             <ListItemButton>
                 <ListItemIcon><PersonIcon/></ListItemIcon>
                 <ListItemText>My Profile</ListItemText>
