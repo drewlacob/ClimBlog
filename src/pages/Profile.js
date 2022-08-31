@@ -30,9 +30,11 @@ const Profile = () => {
     var lastName = data.get('lastname')
     var password = data.get('password');
     var password2 = data.get('password2')
-    console.log('email: ' + email + ' first: ' + firstName + ' last: ' + lastName + ' new pass: ' + password);
 
-    //check passwords same
+    if(password.length < 8){
+      setHasError('Password must be at least 8 characters long!')
+      return;
+    }
     if (password !== password2){
       setHasError('Passwords do not match!');
       return;
@@ -42,22 +44,17 @@ const Profile = () => {
       return;
     }
 
-    console.log('HITTING API WITH UPDATE REQUEST');
     updateUserProfile(user_id, firstName, lastName, password).then(setSuccessfullyUpdated(true));
   }
 
   useEffect(() => {
     async function fetchAndSetData() {
       const profile = await getUserProfile(user_id);
-      console.log(profile);
-
       setEmail(profile.email)
-      // if(profile.first_name)
       setFirstName(profile.first_name);
       setLastName(profile.last_name);
       setIsLoading(false);
     }
-    console.log('use effect on load: fetching and setting data')
     fetchAndSetData();
   }, [user_id]);
 
@@ -72,25 +69,21 @@ const Profile = () => {
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '80vw'}}>
           <TextField
             margin="normal"
-            required
             fullWidth
             id="firstname"
             label="First Name"
             defaultValue={firstName == null ? '' : firstName}
             name="firstname"
-            autoFocus
             InputLabelProps={{ shrink: firstName?true:false }}
             onChange={(e)=>setFirstName(e.target.value)}
           />
           <TextField
             margin="normal"
-            required
             fullWidth
             id="lastname"
             label="Last Name"
             defaultValue={lastName == null ? '' : lastName}
             name="lastname"
-            autoFocus
             InputLabelProps={{ shrink: lastName?true:false }}
             onChange={(e)=>setLastName(e.target.value)}
           />
@@ -103,10 +96,19 @@ const Profile = () => {
             name="email"
             value={email}
             autoComplete="email"
-            autoFocus
             disabled
             InputLabelProps={{ shrink: lastName?true:false }}
           />
+          {/* TODO: Make current password required to change account info 
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="currentpassword"
+            label="Current Password"
+            type="password"
+            id="currentpassword"
+          /> */}
           <TextField
             margin="normal"
             required

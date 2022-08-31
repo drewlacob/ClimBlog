@@ -24,7 +24,7 @@ const ExperienceCard = () => {
         component="img"
         alt="bouldering stock img"
         height="280vh"
-        image={require("../../images/bouldering-stock-img.jpg")}
+        image={require("../images/bouldering-stock-img.jpg")}
       />
       </Grid>
       <Grid item alignContent="center" alignItems="center" md={4} l={6}>

@@ -1,5 +1,5 @@
 import React from 'react'
-import ExperienceCard from '../components/experienceCard/experienceCard';
+import ExperienceCard from '../components/experienceCard';
 import Stack from '@mui/material/Stack';
 
 const Feed = () => {
