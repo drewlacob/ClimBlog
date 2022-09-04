@@ -3,8 +3,9 @@ const app = express();
 const bcrypt = require('bcryptjs')
 const config = require('./config.js');
 const cors = require('cors');
+const { cloudinary } = require('./utils/cloudinary');
 
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 app.use(cors());
 
 const port = 3000
@@ -22,6 +23,7 @@ const knex = require('knex')({
   });
 //TODO: ADD JWT TO PROTECT ROUTES
 //https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs
+//TODO: SPLIT THIS FILE INTO ROUTES AND CONTOLLERS TO DECLUTTER
 
 //post so password sent in body and not url, safer
 app.post('/login', async (req, res) => {
@@ -81,10 +83,42 @@ app.post('/updateUserProfile', async (req, res) => {
     .catch((err) => res.status(500).json(err));
 })
 
+app.post('/createPost', async (req, res) => {
+    //req: { title, date, first_name, description, grade, rating, user_id }, autofilled: post_id, created_at
+    const uploadResponse = await cloudinary.uploader.upload(req.body.image, {
+        upload_preset: process.env.REACT_APP_CLOUDINARY_PRESET_NAME,
+    });
+    console.log(uploadResponse);
+    knex('posts')
+    .insert(
+        {title: req.body.title, 
+         date: req.body.date,
+         first_name: req.body.first_name,
+         description: req.body.description,
+         grade: req.body.grade,
+         rating: req.body.rating,
+         user_id: req.body.user_id,
+         image_url: req.body.imageURL},
+        ['post_id', 'title', 'date', 'first_name', 'description', 'grade', 'rating', 'image_url', 'user_id']
+    )
+    .then((user) => res.status(200).json(user[0]))
+    .catch((err) => res.status(500).json(err));
+})
 
-//create post
-//get all posts
-//get one post
+app.get('/getAllPosts', async (req, res) => {
+    knex('posts').select('*')
+    .then((posts) => res.status(200).json(posts))
+    .catch((err) => res.status(500).json(err));
+})
+
+//get one user by id, ex: /post/1
+app.get('/post/:id', async (req, res) => {
+    knex('posts')
+    .where({post_id: req.params.id})
+    .select('*')
+    .then((post) => res.status(200).json(post[0]))
+    .catch((err) => res.status(500).json(err));
+})
 
 //lower priority
 //get settings
@@ -92,6 +126,20 @@ app.post('/updateUserProfile', async (req, res) => {
 //forgot password
 //mailer util
 
+app.post('/api/upload', async (req, res) => {
+    try {
+        const fileStr = req.body.data;
+        const uploadResponse = await cloudinary.uploader.upload(fileStr, {
+            upload_preset: process.env.REACT_APP_CLOUDINARY_PRESET_NAME,
+        });
+        // console.log(uploadResponse);
+        console.log('url:', uploadResponse.url);
+        res.status(200).json({imageURL: uploadResponse.url});
+    } catch (err) {
+        //console.error(err);
+        res.status(500).json({ err: 'Something went wrong' });
+    }
+});
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`)

@@ -57,3 +57,16 @@ export async function updateUserProfile(userID, firstName, lastName, password) {
         console.log(error)
     }
 }
+
+//create post
+export async function createPost(title, date, first_name, description, grade, rating, user_id, image) {
+    try {
+        console.log('in client req with ' + title + 'image of ' + image)
+        const response = await api.post('/createPost', {
+            title, date, first_name, description, grade, rating, user_id, image
+        })
+        return response.data;
+    } catch (error) {
+        console.log(error)
+    }
+}

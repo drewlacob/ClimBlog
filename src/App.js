@@ -14,9 +14,13 @@ import Filter from './pages/Filter';
 import CreatePost from './pages/CreatePost';
 
 import { UserProvider } from './UserContext';
+import Upload from './pages/Upload';
 
 //page transitions https://www.youtube.com/watch?v=YxLMAk2H3ns&ab_channel=CodeSnap
 //on scroll easy fade up https://www.youtube.com/watch?v=JcHLxzrsRS4&ab_channel=Arslan
+
+//TODO navbar full clickable whole length when logged out bug
+//TODO when new account created and go to profile page, some bugs there like email covering email label
 
 function App() {
   return (
@@ -33,6 +37,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/filters" element={<Filter />} />
           <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/upload" element={<Upload />} />
         </Routes>
       </div>
       <Footer/>
