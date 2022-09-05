@@ -9,7 +9,8 @@ import Rating from '@mui/material/Rating';
 import Chip from '@mui/material/Chip';
 
 const post = {
-  imageURL: "images/bouldering-stock-img.jpg",
+  // imageURL: "images/bouldering-stock-img.jpg",
+  imageURL: "http://res.cloudinary.com/dheqfppu3/image/upload/v1662409276/v36kcdaxiprtgggteqoh.jpg",
   title: "First V4!",
   date: "8/18/2022",
   firstName: "Drew",
@@ -32,7 +33,8 @@ const ExperienceCard = () => {
         component="img"
         alt="bouldering stock img"
         height="280vh"
-        image={require("../" + post.imageURL)}
+        // image={require("../" + post.imageURL)}
+        image={post.imageURL}
       />
       </Grid>
       <Grid item alignContent="center" alignItems="center" md={4} l={6}>

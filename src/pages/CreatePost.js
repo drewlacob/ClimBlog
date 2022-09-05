@@ -2,20 +2,16 @@ import React, {useState} from 'react'
 import { Grid, Button, Rating, Box,
          Typography, TextField, Tooltip,
         } from '@mui/material'; 
-// import { uploadImage } from '../utils/clientRequests';
 
 const CreatePost = () => {
   const [climbRating, setClimbRating] = useState(0);
-  const [fileInputState, setFileInputState] = useState('');
   const [previewSource, setPreviewSource] = useState('');
   const [selectedFile, setSelectedFile] = useState();
-  const [imageURL, setImageURL] = useState('');
 
   const handleMediaInputChange = (e) => {
       const file = e.target.files[0];
       previewFile(file);
       setSelectedFile(file);
-      setFileInputState(e.target.value);
   };
 
   const previewFile = (file) => {
@@ -26,40 +22,36 @@ const CreatePost = () => {
     };
   };
 
-  const uploadImageHelper = (base64EncodedImage) => {
+  const uploadImageHelper = async (base64EncodedImage) => {
     try {
-        fetch('http://localhost:3000/api/upload' , { //TODO: USE .env
+        const response = await fetch('http://localhost:3000/api/upload' , { //TODO: USE .env
           method: 'POST',
           body: JSON.stringify({ data: base64EncodedImage }),
           headers: { 'Content-Type': 'application/json' },
         })
-        .then((response) => response.json())
-        .then((result) => {
-          // console.log('Succes', result);
-          setImageURL(result);
-          console.log('imageURL in state: ', imageURL)
-        })
-        setFileInputState('');
-        setPreviewSource('');
+        const url = await response.json();
+        return url;
     } catch (err) {
         console.error(err);
     }
   };
 
   const handleMediaUpload = () => {
-    if (!selectedFile) return;
-    const reader = new FileReader();
-    reader.readAsDataURL(selectedFile);
-    reader.onloadend = () => {
-        uploadImageHelper(reader.result)
-    };
-    reader.onerror = () => {
-        console.error('Something went wrong!');
-    };
+    if (!selectedFile) return "null";
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(selectedFile);
+      reader.onloadend = async () => {
+           const res = await uploadImageHelper(reader.result);
+           resolve(res);
+      };
+      reader.onerror = reject;
+    })
   };
 
   const removeMedia = () => {
-    console.log('remove');
+    setPreviewSource('');
+    setSelectedFile(null);
   }
 
   const handleSubmit = async (event) => {
@@ -74,14 +66,9 @@ const CreatePost = () => {
     console.log('grade', grade);
     console.log('description', description);
     console.log('rating', climbRating);
-    console.log('selectedFile', selectedFile);
-    console.log('fileInputState', fileInputState);
-    // console.log('previewSource', previewSource);
-    console.log('Hitting backend for media upload:');
 
-    handleMediaUpload();
-    // const imageURL = await handleMediaUpload();
-    // console.log('imageURL in handleSubmit after upload', imageURL)
+    const {imageURL} = await handleMediaUpload();
+    console.log('imageURL: ', imageURL)
   }
 
   return (
