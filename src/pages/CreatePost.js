@@ -6,6 +6,8 @@ import { Grid, Button, Rating, Box,
 import { UserContext } from '../UserContext';
 import { createPost } from '../utils/clientRequests';
 
+//TODO: ALERT FOR BAD INPUTS
+//TODO: LOADING BUTTON OR ANIMATION WHILE POSTING, THEN REDIRECT TO FEED?
 const CreatePost = () => {
   const { userID, firstName } = React.useContext(UserContext);
   const [user_id, ] = userID;

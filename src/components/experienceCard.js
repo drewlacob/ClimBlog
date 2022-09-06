@@ -8,18 +8,8 @@ import Grid from '@mui/material/Grid';
 import Rating from '@mui/material/Rating';
 import Chip from '@mui/material/Chip';
 
-const post = {
-  // imageURL: "images/bouldering-stock-img.jpg",
-  imageURL: "http://res.cloudinary.com/dheqfppu3/image/upload/v1662409276/v36kcdaxiprtgggteqoh.jpg",
-  title: "First V4!",
-  date: "8/18/2022",
-  firstName: "Drew",
-  description: "This was the first V4 that I climbed at Vital Carlsbad. It was a tough overhanging boulder that required several drop knees. This was the first V4 that I climbed at Vital Carlsbad. It was a tough overhanging boulder that required several drop knees. This was the first V4 that I climbed at Vital Carlsbad. It was a tough overhanging boulder that required several drop knees.",
-  grade: "V3-V4",
-  rating: 4
-}
-
-const ExperienceCard = () => {
+//TODO: FIX SCALING OF CARD BASED ON DESCRIPTION LENGTH
+const ExperienceCard = (props) => {
   return (
     //add style of climb? ex: crimp, jug, hybrid 
     //add location eg outdoor or the gym name
@@ -34,38 +24,38 @@ const ExperienceCard = () => {
         alt="bouldering stock img"
         height="280vh"
         // image={require("../" + post.imageURL)}
-        image={post.imageURL}
+        image={props.imageURL}
       />
       </Grid>
       <Grid item alignContent="center" alignItems="center" md={4} l={6}>
       <CardContent>
         <Grid container direction="row" justifyContent="space-between">
           <Typography variant="h5" component="div">
-          {post.title}
+          {props.title}
           </Typography>
           <Typography variant="h5" component="div">
-          {post.date}
+          {props.date}
           </Typography>
           <Typography variant="h5" component="div">
-          Climbed by {post.firstName}
+          Climbed by {props.firstName}
           </Typography>
         </Grid>
       <Grid item>
       <Typography variant="body2" color="text.secondary">
-        {post.description}
+        {props.description}
       </Typography>
       </Grid>
       </CardContent>
         <CardActions>
           <Grid item>
           <Typography color="primary">Grade: </Typography>
-          <Chip label={post.grade} color="primary" />
+          <Chip label={props.grade} color="primary" />
           </Grid>
           <Grid item>
           <Typography color="primary">Rating: </Typography>
           <Rating
             name="rating"
-            value={post.rating}
+            value={props.rating}
             readOnly/>
           </Grid>
         </CardActions>

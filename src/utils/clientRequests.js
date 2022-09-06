@@ -70,3 +70,13 @@ export async function createPost(title, date, first_name, description, grade, ra
         console.log(error)
     }
 }
+
+//get all posts
+export async function getAllPosts(){
+    try {
+        const response = await api.get('/getAllPosts');
+        return response.data;
+    } catch (error) {
+        console.log(error)
+    }
+}
