@@ -3,8 +3,15 @@ import { Grid, Button, Rating, Box,
          Typography, TextField, Tooltip,
         } from '@mui/material'; 
 
+import { UserContext } from '../UserContext';
+import { createPost } from '../utils/clientRequests';
+
 const CreatePost = () => {
-  const [climbRating, setClimbRating] = useState(0);
+  const { userID, firstName } = React.useContext(UserContext);
+  const [user_id, ] = userID;
+  const [first_name, ] = firstName;
+
+  const [rating, setRating] = useState(0);
   const [previewSource, setPreviewSource] = useState('');
   const [selectedFile, setSelectedFile] = useState();
 
@@ -65,10 +72,16 @@ const CreatePost = () => {
     console.log('date', date);
     console.log('grade', grade);
     console.log('description', description);
-    console.log('rating', climbRating);
-
+    console.log('rating', rating);
+    console.log('user_id', user_id);
+    console.log('firstName', first_name);
     const {imageURL} = await handleMediaUpload();
     console.log('imageURL: ', imageURL)
+
+    var response = await createPost(
+      title, date, first_name, description, grade, rating, user_id, imageURL
+    )
+    console.log(response);
   }
 
   return (
@@ -99,9 +112,9 @@ const CreatePost = () => {
           <Typography>Rate your experience: </Typography>
           <Rating
             name="rating"
-            value={climbRating}
+            value={rating || 0}
             sx={{ml:2}}
-            onChange={(e) => setClimbRating(e.target.value)}
+            onChange={(e) => setRating(e.target.value)}
           />
           </Grid>
             <TextField

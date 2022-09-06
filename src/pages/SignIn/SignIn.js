@@ -30,9 +30,10 @@ function Copyright(props) {
 }
 
 export default function SignIn() {
-  const { isLoggedIn, userID } = React.useContext(UserContext);
+  const { isLoggedIn, userID, firstName } = React.useContext(UserContext);
   const [, setIsLoggedInValue] = isLoggedIn;
   const [, setUserIDValue] = userID;
+  const [, setFirstNameValue] = firstName;
   const [hasLoginError, setHasLoginError] = React.useState('')
   const nav = useNavigate();
 
@@ -56,7 +57,8 @@ export default function SignIn() {
       setHasLoginError('Invalid credentials!')
     else {
       setIsLoggedInValue(true);
-      setUserIDValue(user.user_id);  
+      setUserIDValue(user.user_id);
+      setFirstNameValue(user.first_name);
       nav("/");
     }
   };

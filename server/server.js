@@ -84,11 +84,7 @@ app.post('/updateUserProfile', async (req, res) => {
 })
 
 app.post('/createPost', async (req, res) => {
-    //req: { title, date, first_name, description, grade, rating, user_id }, autofilled: post_id, created_at
-    const uploadResponse = await cloudinary.uploader.upload(req.body.image, {
-        upload_preset: process.env.REACT_APP_CLOUDINARY_PRESET_NAME,
-    });
-    console.log(uploadResponse);
+    //req: { title, date, first_name, description, grade, rating, user_id, imageURL }, autofilled: post_id, created_at
     knex('posts')
     .insert(
         {title: req.body.title, 
@@ -101,7 +97,7 @@ app.post('/createPost', async (req, res) => {
          image_url: req.body.imageURL},
         ['post_id', 'title', 'date', 'first_name', 'description', 'grade', 'rating', 'image_url', 'user_id']
     )
-    .then((user) => res.status(200).json(user[0]))
+    .then((post) => res.status(200).json(post[0]))
     .catch((err) => res.status(500).json(err));
 })
 
@@ -132,11 +128,8 @@ app.post('/api/upload', async (req, res) => {
         const uploadResponse = await cloudinary.uploader.upload(fileStr, {
             upload_preset: process.env.REACT_APP_CLOUDINARY_PRESET_NAME,
         });
-        // console.log(uploadResponse);
-        console.log('url:', uploadResponse.url);
-        res.status(200).json({imageURL: uploadResponse.url});
+        res.status(200).json({ imageURL: uploadResponse.url });
     } catch (err) {
-        //console.error(err);
         res.status(500).json({ err: 'Something went wrong' });
     }
 });
