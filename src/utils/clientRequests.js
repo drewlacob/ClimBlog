@@ -6,6 +6,8 @@ const api = axios.create({
 })
 //axios requests
 
+//TODO: REFACTOR THIS INTO SERVICES FOLDER WITH ONE API SERVICE
+//PER FILE... ex: createAccount.js in services or api folder
 //createAccount
 export async function createAccount(email, password) {
     try {

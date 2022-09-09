@@ -1,13 +1,13 @@
 import React, {useState} from 'react'
 import { Grid, Button, Rating, Box,
-         Typography, TextField, Tooltip,
+         Typography, TextField, Tooltip, Alert, AlertTitle,
         } from '@mui/material'; 
+import { LoadingButton } from '@mui/lab';
+import SaveIcon from '@mui/icons-material/Save';
 
 import { UserContext } from '../UserContext';
 import { createPost } from '../utils/clientRequests';
 
-//TODO: ALERT FOR BAD INPUTS
-//TODO: LOADING BUTTON OR ANIMATION WHILE POSTING, THEN REDIRECT TO FEED?
 const CreatePost = () => {
   const { userID, firstName } = React.useContext(UserContext);
   const [user_id, ] = userID;
@@ -16,6 +16,9 @@ const CreatePost = () => {
   const [rating, setRating] = useState(0);
   const [previewSource, setPreviewSource] = useState('');
   const [selectedFile, setSelectedFile] = useState();
+  const [hasError, setHasError] = useState('')
+  const [successfullyPosted, setHasSuccessfullyPosted] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleMediaInputChange = (e) => {
       const file = e.target.files[0];
@@ -65,25 +68,42 @@ const CreatePost = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     const data = new FormData(event.currentTarget);
     var title = data.get('title');
     var date = data.get('date')
     var grade = data.get('grade');
     var description = data.get('description')
-    console.log('title', title);
-    console.log('date', date);
-    console.log('grade', grade);
-    console.log('description', description);
-    console.log('rating', rating);
-    console.log('user_id', user_id);
-    console.log('firstName', first_name);
+
+    if (!title){
+      setHasError('Invalid or missing title!');
+      return;
+    }
+    if (!user_id){
+      setHasError('Invalid credentials to create post. Please try logging in again!');
+      return;
+    }
+    if (!selectedFile){
+      setHasError('At least one photo or video is required!');
+      return;
+    }
+
     const {imageURL} = await handleMediaUpload();
-    console.log('imageURL: ', imageURL)
+    if (!imageURL){
+      setHasError('Error with uploading media or missing a photo. At least one photo or video is required!');
+      return;
+    }
 
     var response = await createPost(
       title, date, first_name, description, grade, rating, user_id, imageURL
     )
-    console.log(response);
+    if (!response.post_id){
+      setHasError('Error creating post, please try again later!');
+    }
+
+    setHasError('');
+    setHasSuccessfullyPosted(true);
+    setIsLoading(false);
   }
 
   return (
@@ -129,10 +149,10 @@ const CreatePost = () => {
               rows={5}
             />
           </Grid>
-          <Grid container direction="column" sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', my: 2, mr: '2vw',
+          <Grid container direction="column" sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2, mb:1, mr: '2vw',
                                                   border: 4, borderColor: '#1976d2', borderTopLeftRadius: "8px", borderStyle: 'dashed',
                                                   borderTopRightRadius: "8px", borderBottomLeftRadius: "8px", 
-                                                  borderBottomRightRadius: "8px", height:'45vh', ml: '2vw'}}>
+                                                  borderBottomRightRadius: "8px", height:'49vh', ml: '2vw'}}>
             {!previewSource && <Button variant="contained" component="label">
               Upload
               <input hidden accept="image/*" type="file" onChange={handleMediaInputChange}/>
@@ -158,13 +178,31 @@ const CreatePost = () => {
                </>}
           </Grid>
         </Grid>
-        <Button
+        {!isLoading ? <Button
             type="submit"
             variant="contained"
             sx={{ width: '96%'}}
         >
         Create Post
-        </Button>
+        </Button> : <LoadingButton
+                          loading
+                          loadingPosition="center"
+                          startIcon={<SaveIcon />}
+                          variant="contained"
+                          sx={{ width: '96%'}}
+                      >
+                    Create Post
+                    </LoadingButton>}
+        {hasError && <Alert severity="error" variant="filled" sx={{width:'96%', padding: '6px 0px', mt: 2,
+                        "& .MuiAlert-icon": { padding: '7px 7px'}} }>
+                <AlertTitle>Error</AlertTitle>
+                    {hasError}
+              </Alert>}
+          {successfullyPosted && <Alert severity="success" variant="filled" sx={{width:'96%', padding: '6px 0px', mt: 2,
+                                  "& .MuiAlert-icon": { padding: '7px 7px'}} }>
+                <AlertTitle>Success</AlertTitle>
+                    Your post has been created!
+              </Alert>}
     </Grid>
   )
 }

@@ -11,11 +11,12 @@ import { UserContext } from '../UserContext';
 import { validatePassword } from '../utils';
 
 const Profile = () => {
-  const { userID } = React.useContext(UserContext);
+  const { userID, firstName } = React.useContext(UserContext);
   const [user_id, ] = userID;
+  const [, setFirstName] = firstName;
 
   const [email, setEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
+  const [localFirstName, setLocalFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState('')
@@ -26,7 +27,7 @@ const Profile = () => {
     setSuccessfullyUpdated(false)
     setHasError('');
     const data = new FormData(event.currentTarget);
-    var firstName = data.get('firstname');
+    var localFirstName = data.get('firstname');
     var lastName = data.get('lastname')
     var password = data.get('password');
     var password2 = data.get('password2')
@@ -44,14 +45,20 @@ const Profile = () => {
       return;
     }
 
-    updateUserProfile(user_id, firstName, lastName, password).then(setSuccessfullyUpdated(true));
+    const response = await updateUserProfile(user_id, localFirstName, lastName, password);
+    if (response.email){
+      setFirstName(localFirstName);
+      setSuccessfullyUpdated(true)
+    } else {
+      setHasError('Error updating profile. Please try again later!');
+    }
   }
 
   useEffect(() => {
     async function fetchAndSetData() {
       const profile = await getUserProfile(user_id);
       setEmail(profile.email)
-      setFirstName(profile.first_name);
+      setLocalFirstName(profile.first_name);
       setLastName(profile.last_name);
       setIsLoading(false);
     }
@@ -72,10 +79,10 @@ const Profile = () => {
             fullWidth
             id="firstname"
             label="First Name"
-            defaultValue={firstName == null ? '' : firstName}
+            defaultValue={localFirstName == null ? '' : localFirstName}
             name="firstname"
-            InputLabelProps={{ shrink: firstName?true:false }}
-            onChange={(e)=>setFirstName(e.target.value)}
+            InputLabelProps={{ shrink: localFirstName?true:false }}
+            onChange={(e)=>setLocalFirstName(e.target.value)}
           />
           <TextField
             margin="normal"
@@ -97,7 +104,7 @@ const Profile = () => {
             value={email}
             autoComplete="email"
             disabled
-            InputLabelProps={{ shrink: lastName?true:false }}
+            InputLabelProps={{ shrink: true }}
           />
           {/* TODO: Make current password required to change account info 
           <TextField
