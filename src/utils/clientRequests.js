@@ -74,9 +74,21 @@ export async function createPost(title, date, first_name, description, grade, ra
 }
 
 //get all posts
-export async function getAllPosts(){
+export async function getAllPosts(myPostsOnly){
     try {
         const response = await api.get('/getAllPosts');
+        return response.data;
+    } catch (error) {
+        console.log(error)
+    }
+}
+// /api/choice/:id', choice_controller.get_choice);
+// When I go to .../api/choice/?id=1
+export async function getAllPostsByUserID(user_id){
+    try {
+        const response = await api.get(`/getAllPostsByUserID/${user_id}`, {
+            user_id
+        });
         return response.data;
     } catch (error) {
         console.log(error)

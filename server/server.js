@@ -107,6 +107,16 @@ app.get('/getAllPosts', async (req, res) => {
     .catch((err) => res.status(500).json(err));
 })
 
+//get request cant pass items in body, change to /:?userID or whatever and use req.params
+app.get('/getAllPostsByUserID/:id', async (req, res) => {
+    console.log(req.params.userID)
+    knex('posts')
+    .where({ user_id: req.params.id })
+    .select('*')
+    .then((posts) => res.status(200).json(posts))
+    .catch((err) => res.status(500).json(err));
+})
+
 //get one user by id, ex: /post/1
 app.get('/post/:id', async (req, res) => {
     knex('posts')

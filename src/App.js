@@ -32,7 +32,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/feed" element={<Feed />} />
+          <Route path="/feed" element={<Feed myPostsOnly={false}/>} />
+          <Route path="/my-posts" element={<Feed myPostsOnly/>}/>
           <Route path="/signin" element={<SignIn />} />
           <Route path="/register" element={<Register />} />
           <Route path="/filters" element={<Filter />} />

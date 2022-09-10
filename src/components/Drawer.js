@@ -15,6 +15,7 @@ import CreateIcon from '@mui/icons-material/Create';
 import SortIcon from '@mui/icons-material/Sort';
 import HomeIcon from '@mui/icons-material/Home';
 import MenuIcon from '@mui/icons-material/Menu';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import {Link , useNavigate} from 'react-router-dom';
 
 import { UserContext } from '../UserContext';
@@ -42,10 +43,16 @@ export default function SwipeableTemporaryDrawer() {
       onKeyDown={() => setIsOpen(false)}
     >
       <List>
-        <ListItem key="Feed" component={Link} to='/' sx={{color: 'rgba(0, 0, 0, 0.87)'}} disablePadding>
+        <ListItem key="Feed" component={Link} to='/feed' sx={{color: 'rgba(0, 0, 0, 0.87)'}} disablePadding>
             <ListItemButton>
                 <ListItemIcon><HomeIcon/></ListItemIcon>
                 <ListItemText>My Feed</ListItemText>
+            </ListItemButton>
+        </ListItem>
+        <ListItem key="My Posts" component={Link} to='/my-posts' sx={{color: 'rgba(0, 0, 0, 0.87)'}} disablePadding>
+            <ListItemButton>
+                <ListItemIcon><AssignmentIndIcon/></ListItemIcon>
+                <ListItemText>My Posts</ListItemText>
             </ListItemButton>
         </ListItem>
         <ListItem key="Filters" component={Link} to='/filters' sx={{color: 'rgba(0, 0, 0, 0.87)'}} disablePadding>
