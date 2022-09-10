@@ -77,20 +77,24 @@ const CreatePost = () => {
 
     if (!title){
       setHasError('Invalid or missing title!');
+      setIsLoading(false);
       return;
     }
     if (!user_id){
       setHasError('Invalid credentials to create post. Please try logging in again!');
+      setIsLoading(false);
       return;
     }
     if (!selectedFile){
       setHasError('At least one photo or video is required!');
+      setIsLoading(false);
       return;
     }
 
     const {imageURL} = await handleMediaUpload();
     if (!imageURL){
       setHasError('Error with uploading media or missing a photo. At least one photo or video is required!');
+      setIsLoading(false);
       return;
     }
 
@@ -99,6 +103,8 @@ const CreatePost = () => {
     )
     if (!response.post_id){
       setHasError('Error creating post, please try again later!');
+      setIsLoading(false);
+      return;
     }
 
     setHasError('');
@@ -109,8 +115,8 @@ const CreatePost = () => {
   return (
     <Grid component="form" noValidate onSubmit={handleSubmit} container direction="column" sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', my: 2}}>
         <Typography>Create Post</Typography>
-        <Grid container direction="row" sx={{display: 'flex', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'center'}}>
-          <Grid container direction="column" sx={{display: 'flex', alignItems: 'left', justifyContent: 'left', my: 2, ml: '2vw'}}>
+        <Grid container sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-evenly'}}>
+          <Grid container xs={10} md={5} direction="column" sx={{display: 'flex', alignItems: 'left', justifyContent: 'center', mt: 2}}>
             <TextField
               margin="normal"
               required
@@ -146,13 +152,13 @@ const CreatePost = () => {
               placeholder="Description..."
               name="description"
               multiline
-              rows={5}
+              rows={6}
             />
           </Grid>
-          <Grid container direction="column" sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2, mb:1, mr: '2vw',
+          <Grid container xs={10} md={5} direction="column" sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', my: 2, mb:1,
                                                   border: 4, borderColor: '#1976d2', borderTopLeftRadius: "8px", borderStyle: 'dashed',
                                                   borderTopRightRadius: "8px", borderBottomLeftRadius: "8px", 
-                                                  borderBottomRightRadius: "8px", height:'49vh', ml: '2vw'}}>
+                                                  borderBottomRightRadius: "8px", height:'49vh'}}>
             {!previewSource && <Button variant="contained" component="label">
               Upload
               <input hidden accept="image/*" type="file" onChange={handleMediaInputChange}/>
@@ -177,32 +183,34 @@ const CreatePost = () => {
                </Tooltip>
                </>}
           </Grid>
-        </Grid>
-        {!isLoading ? <Button
-            type="submit"
-            variant="contained"
-            sx={{ width: '96%'}}
-        >
-        Create Post
-        </Button> : <LoadingButton
+          <Grid container xs={10.75} direction="column" sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', my: 2}}>
+            {!isLoading ? <Button
+              type="submit"
+              variant="contained"
+              sx={{ width: '100%'}}
+              >
+              Create Post
+              </Button> : <LoadingButton
                           loading
                           loadingPosition="center"
                           startIcon={<SaveIcon />}
                           variant="contained"
-                          sx={{ width: '96%'}}
+                          sx={{ width: '100%'}}
                       >
                     Create Post
                     </LoadingButton>}
-        {hasError && <Alert severity="error" variant="filled" sx={{width:'96%', padding: '6px 0px', mt: 2,
+          {hasError && <Alert severity="error" variant="filled" sx={{width:'100%', padding: '6px 0px', mt: 2,
                         "& .MuiAlert-icon": { padding: '7px 7px'}} }>
                 <AlertTitle>Error</AlertTitle>
                     {hasError}
               </Alert>}
-          {successfullyPosted && <Alert severity="success" variant="filled" sx={{width:'96%', padding: '6px 0px', mt: 2,
+            {successfullyPosted && <Alert severity="success" variant="filled" sx={{width:'100%', padding: '6px 0px', mt: 2,
                                   "& .MuiAlert-icon": { padding: '7px 7px'}} }>
                 <AlertTitle>Success</AlertTitle>
                     Your post has been created!
               </Alert>}
+          </Grid>
+        </Grid>
     </Grid>
   )
 }

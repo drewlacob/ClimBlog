@@ -26,9 +26,6 @@ const ResponsiveAppBar = () => {
             component={Link}
             to='/'
             sx={{
-              mr: 1,
-              display: 'flex',
-              flexGrow: 1,
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',

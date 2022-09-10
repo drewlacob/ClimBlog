@@ -27,7 +27,7 @@ const Feed = (props) => {
     }
     getAndSetPosts();
   }, [props.myPostsOnly, user_id]);
-//TODO: ADD SKELETONS WHILE LOADING...
+//TODO: ADD SKELETONS WHILE LOADING ONCE CARDS FINALIZED/BETTER
   return (
     <>
     {!hasLoaded && <div>Loading...</div>} 

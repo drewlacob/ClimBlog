@@ -32,7 +32,7 @@ export default function SwipeableTemporaryDrawer() {
 
   const handleLogOut = () => {
     setIsLoggedInValue(false);
-    nav('/');
+    nav('/signin');
   }
 
   const list = () => (
