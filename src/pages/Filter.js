@@ -2,7 +2,7 @@ import React from 'react'
 // import {Cloudinary} from "@cloudinary/url-gen";
 import { AdvancedVideo } from "@cloudinary/react";
 import { Grid } from '@mui/material';
-import { getVideoTransformationsWithReactVideo } from '../getCldshit';
+import { getVideoTransformationsWithReactVideo } from '../getCldVideo';
 import VideoInput from '../components/videoInput/VideoInput';
 
 const Filter = () => {
