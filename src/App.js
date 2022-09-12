@@ -26,6 +26,7 @@ function App() {
       <Navbar/>
       <div className="content-wrap">
         <Routes>
+          {/* protect these routes for broken shit */}
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />

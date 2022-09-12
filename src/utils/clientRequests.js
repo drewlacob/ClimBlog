@@ -85,9 +85,7 @@ export async function getAllPosts(){
 
 export async function getAllPostsByUserID(user_id){
     try {
-        const response = await api.get(`/getAllPostsByUserID/${user_id}`, {
-            user_id
-        });
+        const response = await api.get(`/getAllPostsByUserID/${user_id}`);
         return response.data;
     } catch (error) {
         console.log(error)

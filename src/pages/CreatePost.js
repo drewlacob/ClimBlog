@@ -116,7 +116,7 @@ const CreatePost = () => {
     <Grid component="form" noValidate onSubmit={handleSubmit} container direction="column" sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', my: 2}}>
         <Typography>Create Post</Typography>
         <Grid container sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-evenly'}}>
-          <Grid container xs={10} md={5} direction="column" sx={{display: 'flex', alignItems: 'left', justifyContent: 'center', mt: 2}}>
+          <Grid item xs={10} md={5} sx={{display: 'flex', flexDirection: 'column', alignItems: 'left', justifyContent: 'center', mt: 2}}>
             <TextField
               margin="normal"
               required
@@ -171,7 +171,7 @@ const CreatePost = () => {
                  sx={{
                    height: '100%',
                    width: '100%',
-                   objectFit: 'cover',
+                   objectFit: 'fill',
                    '&:hover': {
                     cursor: 'pointer',
                   }
