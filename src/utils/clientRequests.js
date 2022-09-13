@@ -91,3 +91,12 @@ export async function getAllPostsByUserID(user_id){
         console.log(error)
     }
 }
+
+export async function getOnePost(post_id){
+    try {
+        const response = await api.get(`/post/${post_id}`);
+        return response.data;
+    } catch (error) {
+        console.log(error)
+    }
+}

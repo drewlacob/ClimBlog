@@ -31,7 +31,7 @@ app.post('/login', async (req, res) => {
     const user = await knex('users')
         .where({email: req.body.email})
         .select('*')
-        .catch((err) => res.status(500).json(err));
+        .catch((err) => {return res.status(500).json(err)});
 
     //if no user return
     if(!user[0]) return res.status(401).json({err: "Invalid credentials"});
@@ -117,7 +117,7 @@ app.get('/getAllPostsByUserID/:id', async (req, res) => {
     .catch((err) => res.status(500).json(err));
 })
 
-//get one user by id, ex: /post/1
+//get one post by id, ex: /post/1
 app.get('/post/:id', async (req, res) => {
     knex('posts')
     .where({post_id: req.params.id})

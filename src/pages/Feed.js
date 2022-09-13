@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import ExperienceCard from '../components/experienceCard';
+import ExperienceCard from '../components/ExperienceCard/ExperienceCard';
 import Stack from '@mui/material/Stack';
 
 import { UserContext } from '../UserContext';

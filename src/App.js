@@ -15,6 +15,7 @@ import CreatePost from './pages/CreatePost';
 
 import { UserProvider } from './UserContext';
 import Upload from './pages/Upload';
+import ViewPost from './pages/ViewPost';
 
 //page transitions https://www.youtube.com/watch?v=YxLMAk2H3ns&ab_channel=CodeSnap
 //on scroll easy fade up https://www.youtube.com/watch?v=JcHLxzrsRS4&ab_channel=Arslan
@@ -37,6 +38,7 @@ function App() {
           <Route path="/filters" element={<Filter />} />
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/upload" element={<Upload />} />
+          <Route path="/view-post/:id" element={<ViewPost />} />
         </Routes>
       </div>
       <Footer/>
