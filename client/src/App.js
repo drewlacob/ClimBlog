@@ -2,7 +2,7 @@ import './App.css';
 
 import { Route, Routes } from 'react-router-dom';
 
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
@@ -23,6 +23,7 @@ import ViewPost from './pages/ViewPost';
 function App() {
   return (
     <UserProvider>
+    <div id="back-to-top-anchor"></div>
     <div className="page-container">
       <Navbar/>
       <div className="content-wrap">

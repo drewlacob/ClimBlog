@@ -7,15 +7,17 @@ import {AppBar,
         Icon} from '@mui/material';  
 import {Link} from 'react-router-dom';
 
-import Drawer from './Drawer';
-import Logo from './Logo';
-import { UserContext } from '../UserContext';
+import Drawer from '../Drawer';
+import Logo from '../Logo';
+import { UserContext } from '../../UserContext';
+import TransparentOnScroll from './TransparentOnScroll';
 
 const ResponsiveAppBar = () => {
   const { isLoggedIn } = React.useContext(UserContext);
   const [isLoggedInValue, ] = isLoggedIn;
 
   return (
+    <TransparentOnScroll>
     <AppBar position="sticky">
       <Container maxWidth="false">
         <Toolbar>
@@ -43,6 +45,7 @@ const ResponsiveAppBar = () => {
         </Toolbar>
       </Container>
     </AppBar>
+   </TransparentOnScroll>
   );
 };
 export default ResponsiveAppBar;

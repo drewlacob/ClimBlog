@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack';
 
 import { UserContext } from '../UserContext';
 import { getAllPosts, getAllPostsByUserID } from '../utils/clientRequests';
+import ScrollTopButton from '../components/ScrollTop';
 
 const Feed = (props) => {
   const { userID } = React.useContext(UserContext);
@@ -36,7 +37,7 @@ const Feed = (props) => {
     justifyContent="flex-start"
     alignItems="center"
     spacing={2}
-    mt={2}
+    mt={1}
     >
       {posts.length===0 && props.myPostsOnly && 
       <div>There's nothing here yet! Add a post to change that!</div>}
@@ -52,7 +53,9 @@ const Feed = (props) => {
                         imageURL={post.image_url}
                         key={post.post_id}/>
       ))}
-      <div></div>
+      <div>
+        <ScrollTopButton/>
+      </div>
     </Stack>}
     </>
   )
