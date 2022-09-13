@@ -1,0 +1,69 @@
+###test root
+
+POST http://localhost:3000/createAccount
+Content-Type: application/json
+
+{
+    "email": "test@gmail.com",
+    "password": "secretpass"
+}
+
+###
+
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "email": "bishop7rook@gmail.com",
+    "password": "Drew1523"
+}
+
+###
+GET http://localhost:3000/getUserProfile
+Content-Type: application/json
+
+{
+    "user_id": "2"
+}
+
+###
+POST http://localhost:3000/updateUserProfile
+Content-Type: application/json
+
+{
+    "user_id": "2",
+    "first_name": "Billy",
+    "last_name": "patss",
+    "password": ""
+}
+
+###
+POST http://localhost:3000/createPost
+Content-Type: application/json
+
+{
+    "title": "Second Climb", 
+    "date": "9/1/22",
+    "first_name": "Drew",
+    "description": "This is the description text... this is the description text... this is the description text...",
+    "grade": "V5",
+    "rating": "5",
+    "user_id": 3
+}
+
+###
+GET http://localhost:3000/post/2
+
+###
+GET http://localhost:3000/getAllPosts
+
+###
+GET http://localhost:3000/getAllPostsByUserID/3
+
+###
+POST http://localhost:3000/uploadMedia
+Content-Type: application/json
+
+{
+    "image":"blob:http://localhost:3001/0b81dfc8-6c1a-447a-b15d-1eca256d4bda"
+}
