@@ -4,9 +4,9 @@ import { Grid, Button, Rating, Box,
         } from '@mui/material'; 
 import { LoadingButton } from '@mui/lab';
 import SaveIcon from '@mui/icons-material/Save';
-
+import axios from 'axios'
 import { UserContext } from '../UserContext';
-import { createPost } from '../utils/clientRequests';
+// import { createPost } from '../utils/clientRequests';
 
 const CreatePost = () => {
   const { userID, firstName } = React.useContext(UserContext);
@@ -32,33 +32,6 @@ const CreatePost = () => {
     reader.onloadend = () => {
         setPreviewSource(reader.result);
     };
-  };
-
-  const uploadImageHelper = async (base64EncodedImage) => {
-    try {
-        const response = await fetch('http://localhost:3000/api/upload' , { //TODO: USE .env
-          method: 'POST',
-          body: JSON.stringify({ data: base64EncodedImage }),
-          headers: { 'Content-Type': 'application/json' },
-        })
-        const url = await response.json();
-        return url;
-    } catch (err) {
-        console.error(err);
-    }
-  };
-
-  const handleMediaUpload = () => {
-    if (!selectedFile) return "null";
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(selectedFile);
-      reader.onloadend = async () => {
-           const res = await uploadImageHelper(reader.result);
-           resolve(res);
-      };
-      reader.onerror = reject;
-    })
   };
 
   const removeMedia = () => {
@@ -91,21 +64,16 @@ const CreatePost = () => {
       return;
     }
 
-    const {imageURL} = await handleMediaUpload();
-    if (!imageURL){
-      setHasError('Error with uploading media or missing a photo. At least one photo or video is required!');
-      setIsLoading(false);
-      return;
-    }
-
-    var response = await createPost(
-      title, date, first_name, description, grade, rating, user_id, imageURL
-    )
-    if (!response.post_id){
-      setHasError('Error creating post, please try again later!');
-      setIsLoading(false);
-      return;
-    }
+    const formData = new FormData();
+    formData.append("image", selectedFile)
+    formData.append("title", title)
+    formData.append("date", date)
+    formData.append("first_name", first_name)
+    formData.append("description", description)
+    formData.append("grade", grade)
+    formData.append("rating", rating)
+    formData.append("user_id", user_id)
+    await axios.post("http://localhost:3000/createPost", formData, { headers: {'Content-Type': 'multipart/form-data'}})
 
     setHasError('');
     setHasSuccessfullyPosted(true);

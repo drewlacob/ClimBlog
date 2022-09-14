@@ -50,7 +50,7 @@ const Feed = (props) => {
                         rating={post.rating}
                         userID={post.user_id}
                         postID={post.post_id}
-                        imageURL={post.image_url}
+                        imageURL={post.signedImageUrl}
                         key={post.post_id}/>
       ))}
       <div>

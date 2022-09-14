@@ -67,3 +67,6 @@ Content-Type: application/json
 {
     "image":"blob:http://localhost:3001/0b81dfc8-6c1a-447a-b15d-1eca256d4bda"
 }
+
+### 
+DELETE http://localhost:3000/post/8
