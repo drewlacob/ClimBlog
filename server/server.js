@@ -1,13 +1,11 @@
 const express = require("express");
 const app = express();
 const bcrypt = require('bcryptjs')
-const config = require('./config.js');
 const cors = require('cors');
-
 const multer = require('multer');
-const {S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand} = require('@aws-sdk/client-s3'); 
 const crypto = require('crypto');
-const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+const config = require('./config.js');
+const mys3 = require('./utils/s3');
 
 app.use(express.json({ limit: '50mb' }));
 app.use(cors());
@@ -16,14 +14,6 @@ const port = 3000
 
 const storage = multer.memoryStorage();
 const upload = multer({storage: storage})
-
-const s3 = new S3Client({
-    credentials: {
-        accessKeyId: config.accessKey,
-        secretAccessKey: config.secretAccessKey,
-    },
-    region: config.bucketRegion
-})
 
 const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
 
@@ -50,7 +40,6 @@ app.post('/login', async (req, res) => {
         .select('*')
         .catch((err) => {return res.status(500).json(err)});
 
-    //if no user return
     if(!user[0]) return res.status(401).json({err: "Invalid credentials"});
 
     if(bcrypt.compareSync(req.body.password, user[0].password))
@@ -102,18 +91,8 @@ app.post('/updateUserProfile', async (req, res) => {
 
 app.post('/createPost', upload.single('image'), async (req, res) => {
     //req: { title, date, first_name, description, grade, rating, user_id, imageURL }, autofilled: post_id, created_at
-    console.log('req.body', req.body);
-    console.log('req.file', req.file);
-    
     const imageName = randomImageName();
-    const params = {
-        Bucket: config.bucketName,
-        Key: imageName,
-        Body: req.file.buffer,
-        ContentType: req.file.mimetype,
-    }
-    const command = new PutObjectCommand(params);
-    await s3.send(command);
+    await mys3.uploadFile(req.file.buffer, imageName, req.file.mimetype);
 
     knex('posts')
     .insert(
@@ -135,13 +114,7 @@ app.get('/getAllPosts', async (req, res) => {
     const posts = await knex('posts').select('*');
     
     for (let post of posts) {
-        const getObjectParams = {
-            Bucket: config.bucketName,
-            Key: post.image_url
-        }
-        const command = new GetObjectCommand(getObjectParams);
-        const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
-        post.signedImageUrl = url;
+        post.signedImageUrl = await mys3.getObjectSignedUrl(post.image_url);
       }
 
     res.send(posts);
@@ -152,13 +125,7 @@ app.get('/getAllPostsByUserID/:id', async (req, res) => {
     const posts = await knex('posts').where({ user_id: req.params.id }).select('*');
     
     for (let post of posts) {
-        const getObjectParams = {
-            Bucket: config.bucketName,
-            Key: post.image_url
-        }
-        const command = new GetObjectCommand(getObjectParams);
-        const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
-        post.signedImageUrl = url;
+        post.signedImageUrl = await mys3.getObjectSignedUrl(post.image_url);
       }
 
     res.send(posts);
@@ -167,13 +134,9 @@ app.get('/getAllPostsByUserID/:id', async (req, res) => {
 //get one post by id, ex: /post/1
 app.get('/post/:id', async (req, res) => {
     const post = await knex('posts').where({post_id: req.params.id}).select('*')
-    const getObjectParams = {
-        Bucket: config.bucketName,
-        Key: post.image_url
-    }
-    const command = new GetObjectCommand(getObjectParams);
-    const url = await getSignedUrl(s3, command, { expiresIn: 3600 })
-    post.signedImageUrl = url;
+    if (!post[0])
+        return res.status(404).send('Post not found');
+    post[0].signedImageUrl = await mys3.getObjectSignedUrl(post[0].image_url);
     res.send(post);
 })
 
@@ -181,21 +144,13 @@ app.delete('/post/:id', async (req, res) => {
     const id = +req.params.id;
 
     const post = await knex('posts').where({post_id: id}).select('*');
-    console.log(post);
     if (!post[0])
         return res.status(404).send('Post not found');
 
-    console.log(post[0].image_url);
-    const params = {
-        Bucket: config.bucketName,
-        Key: post[0].image_url,
-    }
-
-    const command = new DeleteObjectCommand(params);
-    await s3.send(command);
+    await mys3.deleteFile(post[0].image_url);
 
     await knex('posts').where({post_id: id}).del();
-    res.send(200);
+    res.sendStatus(200);
 })
 
 //lower priority
