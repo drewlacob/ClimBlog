@@ -32,23 +32,29 @@ router.post('/createPost', upload.single('image'), async (req, res) => {
 })
 
 router.get('/getAllPosts', async (req, res) => {
+    try{
     const posts = await knex('posts').select('*');
-    
     for (let post of posts) {
         post.signedImageUrl = await mys3.getObjectSignedUrl(post.image_url);
       }
 
     res.send(posts);
+    } catch{
+        res.sendStatus(500);
+    }
 })
 
 router.get('/getAllPostsByUserID/:id', async (req, res) => {
+    try {
     const posts = await knex('posts').where({ user_id: req.params.id }).select('*');
-    
     for (let post of posts) {
         post.signedImageUrl = await mys3.getObjectSignedUrl(post.image_url);
       }
 
     res.send(posts);
+    } catch {
+        res.sendStatus(500);
+    }
 })
 
 router.get('/post/:id', async (req, res) => {
@@ -56,7 +62,7 @@ router.get('/post/:id', async (req, res) => {
     if (!post[0])
         return res.status(404).send('Post not found');
     post[0].signedImageUrl = await mys3.getObjectSignedUrl(post[0].image_url);
-    res.send(post);
+    res.send(post[0]);
 })
 
 router.delete('/post/:id', async (req, res) => {

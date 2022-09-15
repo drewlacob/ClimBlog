@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { validateEmail } from '../../utils';
 import { UserContext } from '../../UserContext';
-import { login } from '../../utils/clientRequests';
+import { login } from '../../api/login';
 
 function Copyright(props) {
   return (

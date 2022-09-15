@@ -6,7 +6,6 @@ import { LoadingButton } from '@mui/lab';
 import SaveIcon from '@mui/icons-material/Save';
 import axios from 'axios'
 import { UserContext } from '../UserContext';
-// import { createPost } from '../utils/clientRequests';
 
 const CreatePost = () => {
   const { userID, firstName } = React.useContext(UserContext);

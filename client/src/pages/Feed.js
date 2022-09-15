@@ -3,7 +3,8 @@ import ExperienceCard from '../components/ExperienceCard/ExperienceCard';
 import Stack from '@mui/material/Stack';
 
 import { UserContext } from '../UserContext';
-import { getAllPosts, getAllPostsByUserID } from '../utils/clientRequests';
+import { getAllPosts } from '../api/getAllPosts';
+import { getAllPostsByUserID } from '../api/getAllPostsByUserID';
 import ScrollTopButton from '../components/ScrollTop';
 
 const Feed = (props) => {

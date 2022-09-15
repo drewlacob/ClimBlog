@@ -13,9 +13,9 @@ const ExperienceCard = (props) => {
 
   return (
     <>
-    <Card component={Link} to={postLink}
+    <Card component={Link} to={postLink} elevation={4}
           sx={{ display: { xs: 'none', md: 'flex' }, width: '60%', minWidth: '370px',
-          textDecoration: 'none', backgroundColor: '#d3d3d3', boxShadow: "3px 4px black"}}>
+          textDecoration: 'none', backgroundColor: '#d3d3d3' }}>
     <Grid container direction="row" alignItems="stretch" justifyContent="flex-start">
       <Grid item xs={12} sm={5}>
         <CardMedia

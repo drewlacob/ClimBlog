@@ -6,7 +6,8 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { Alert, AlertTitle }  from '@mui/material';
 
-import { getUserProfile, updateUserProfile } from '../utils/clientRequests';
+import { getUserProfile } from '../api/getUserProfile';
+import { updateUserProfile } from '../api/updateUserProfile';
 import { UserContext } from '../UserContext';
 import { validatePassword } from '../utils';
 

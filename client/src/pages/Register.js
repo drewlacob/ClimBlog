@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { validateEmail, validatePassword } from '../utils';
 import { UserContext } from '../UserContext';
-import { createAccount } from '../utils/clientRequests';
+import { createAccount } from '../api/createAccount';
 
 const Register = () => {
   const { isLoggedIn, userID } = React.useContext(UserContext);
