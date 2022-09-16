@@ -23,27 +23,27 @@ import ViewPost from './pages/ViewPost';
 function App() {
   return (
     <UserProvider>
-    <div id="back-to-top-anchor"></div>
-    <div className="page-container">
-      <Navbar/>
-      <div className="content-wrap">
-        <Routes>
-          {/* protect these routes for broken shit */}
-          <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/feed" element={<Feed myPostsOnly={false}/>} />
-          <Route path="/my-posts" element={<Feed myPostsOnly/>}/>
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/filters" element={<Filter />} />
-          <Route path="/create-post" element={<CreatePost />} />
-          <Route path="/upload" element={<Upload />} />
-          <Route path="/view-post/:id" element={<ViewPost />} />
-        </Routes>
+      <div id="back-to-top-anchor"></div>
+      <div className="page-container">
+        <Navbar />
+        <div className="content-wrap">
+          <Routes>
+            {/* protect these routes for broken shit */}
+            <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/feed" element={<Feed myPostsOnly={false} />} />
+            <Route path="/my-posts" element={<Feed myPostsOnly />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/filters" element={<Filter />} />
+            <Route path="/create-post" element={<CreatePost />} />
+            <Route path="/upload" element={<Upload />} />
+            <Route path="/view-post/:id" element={<ViewPost />} />
+          </Routes>
+        </div>
+        <Footer />
       </div>
-      <Footer/>
-    </div>
     </UserProvider>
   );
 }

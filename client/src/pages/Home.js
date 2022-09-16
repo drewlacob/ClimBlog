@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import { UserContext } from '../UserContext';
 import GuestHome from '../components/GuestHome';
@@ -10,11 +10,10 @@ const Home = () => {
 
   return (
     <div>
-    {!isLoggedInValue && <GuestHome/>}
-    {isLoggedInValue && <Feed/>}
+      {!isLoggedInValue && <GuestHome />}
+      {isLoggedInValue && <Feed />}
     </div>
+  );
+};
 
-  )
-}
-
-export default Home
+export default Home;
