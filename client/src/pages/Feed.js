@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import ExperienceCard from '../components/ExperienceCard/ExperienceCard';
-import Stack from '@mui/material/Stack';
+import React, { useEffect, useState } from "react";
+import ExperienceCard from "../components/ExperienceCard/ExperienceCard";
+import Stack from "@mui/material/Stack";
 
-import { UserContext } from '../UserContext';
-import { getAllPosts } from '../api/getAllPosts';
-import { getAllPostsByUserID } from '../api/getAllPostsByUserID';
-import ScrollTopButton from '../components/ScrollTop';
+import { UserContext } from "../UserContext";
+import { getAllPosts } from "../api/getAllPosts";
+import { getAllPostsByUserID } from "../api/getAllPostsByUserID";
+import ScrollTopButton from "../components/ScrollTop";
 
 const Feed = (props) => {
   const { userID } = React.useContext(UserContext);
@@ -14,6 +14,7 @@ const Feed = (props) => {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [posts, setPosts] = useState([]);
 
+  //todo make feed order by newest at top
   useEffect(() => {
     async function getAndSetPosts() {
       var data;

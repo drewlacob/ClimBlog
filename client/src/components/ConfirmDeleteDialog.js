@@ -21,7 +21,9 @@ export default function ConfirmDeleteDialog({ isOpen, setIsOpen, handleDelete })
       >
         <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete this post?"}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">This action cannot be undone.</DialogContentText>
+          <DialogContentText sx={{ ml: 3 }} id="alert-dialog-description">
+            This action cannot be undone.
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button sx={{ color: "grey" }} onClick={handleClose}>

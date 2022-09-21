@@ -10,7 +10,7 @@ import ExpCardFooter from "./ExperienceCard/ExpCardFooter";
 
 const ViewPostCard = (props) => {
   return (
-    <Card elevation={4} sx={{ maxWidth: "90vw", mt: 2 }}>
+    <Card elevation={4} sx={{ maxWidth: "70vw", minWidth: "380px", my: 2 }}>
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {props.title}
@@ -24,7 +24,13 @@ const ViewPostCard = (props) => {
           </Typography>
         </Grid>
       </CardContent>
-      <CardMedia component="img" height="450" image={props.imageURL} alt="media" sx={{ objectFit: "cover" }} />
+      <CardMedia
+        component="img"
+        height="undefined"
+        image={props.imageURL}
+        alt="media"
+        sx={{ objectFit: "cover", aspectRatio: 3 / 2 }}
+      />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
           {props.description}

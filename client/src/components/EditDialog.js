@@ -100,7 +100,15 @@ export default function EditDialog(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         fullWidth
-        maxWidth="lg"
+        maxWidth="xl"
+        sx={{
+          "& .MuiDialog-container": {
+            "& .MuiPaper-root": {
+              width: "100%",
+              minWidth: "380px", // Set your width here
+            },
+          },
+        }}
       >
         <DialogTitle id="alert-dialog-title" sx={{ display: "flex", justifyContent: "space-between" }}>
           {"Edit Post"}
@@ -108,7 +116,7 @@ export default function EditDialog(props) {
             Cancel
           </Button>
         </DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{ padding: 0 }}>
           <Grid
             component="form"
             noValidate

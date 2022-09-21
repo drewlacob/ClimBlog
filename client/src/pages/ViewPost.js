@@ -42,6 +42,7 @@ const ViewPost = () => {
     setIsEditDialogOpen(true);
   };
 
+  //todo: make mobile version
   return (
     <>
       {!post && <div>Loading...</div>}
@@ -62,21 +63,11 @@ const ViewPost = () => {
             />
           )}
           {isOwner && !hasBeenDeleted && (
-            <Grid item display="flex" justifyContent="space-between" sx={{ height: "70px" }}>
-              <Button
-                color="success"
-                variant="contained"
-                sx={{ mt: 2, mb: 2, width: "48%" }}
-                onClick={handleEditClicked}
-              >
+            <Grid item display="flex" justifyContent="space-between" sx={{ height: "55px" }}>
+              <Button color="success" variant="contained" sx={{ mb: 2, width: "48%" }} onClick={handleEditClicked}>
                 Edit Post
               </Button>
-              <Button
-                color="error"
-                variant="contained"
-                sx={{ mt: 2, mb: 2, width: "48%" }}
-                onClick={handleOpenConfirmDelete}
-              >
+              <Button color="error" variant="contained" sx={{ mb: 2, width: "48%" }} onClick={handleOpenConfirmDelete}>
                 Delete Post
               </Button>
             </Grid>
