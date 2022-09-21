@@ -35,8 +35,6 @@ router.post("/createPost", upload.single("image"), async (req, res) => {
 
 router.post("/updatePost", upload.single("image"), async (req, res) => {
   //req: { title, date, first_name, description, grade, rating, user_id, imageURL, post_id }
-  //todo:
-  //make this work
 
   //retrieve the current version of the post from the db
   const post = await knex("posts").where({ post_id: req.body.post_id }).select("*");
@@ -75,7 +73,7 @@ router.post("/updatePost", upload.single("image"), async (req, res) => {
 
 router.get("/getAllPosts", async (req, res) => {
   try {
-    const posts = await knex("posts").select("*");
+    const posts = await knex("posts").select("*").orderBy("post_id", "desc");
     for (let post of posts) {
       post.signedImageUrl = await mys3.getObjectSignedUrl(post.image_url);
     }
@@ -88,7 +86,7 @@ router.get("/getAllPosts", async (req, res) => {
 
 router.get("/getAllPostsByUserID/:id", async (req, res) => {
   try {
-    const posts = await knex("posts").where({ user_id: req.params.id }).select("*");
+    const posts = await knex("posts").where({ user_id: req.params.id }).select("*").orderBy("post_id", "desc");
     for (let post of posts) {
       post.signedImageUrl = await mys3.getObjectSignedUrl(post.image_url);
     }

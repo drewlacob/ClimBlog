@@ -1,10 +1,11 @@
-import { axiosClient } from './api';
+import { axiosClient } from "./api";
 
-export async function createAccount(email, password) {
+export async function createAccount(email, password, username) {
   try {
-    const response = await axiosClient.post('/createAccount', {
+    const response = await axiosClient.post("/createAccount", {
       email,
       password,
+      username,
     });
     return response.data;
   } catch (error) {

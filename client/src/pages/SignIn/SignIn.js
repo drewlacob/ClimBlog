@@ -1,30 +1,30 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { Alert, AlertTitle } from '@mui/material';
-import { Link as routerLink } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import { Alert, AlertTitle } from "@mui/material";
+import { Link as routerLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-import { validateEmail } from '../../utils';
-import { UserContext } from '../../UserContext';
-import { login } from '../../api/login';
+import { validateEmail } from "../../utils";
+import { UserContext } from "../../UserContext";
+import { login } from "../../api/login";
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
+      {"Copyright © "}
       <Link color="inherit" href="/">
         ClimBlog
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
@@ -34,46 +34,47 @@ export default function SignIn() {
   const [, setIsLoggedInValue] = isLoggedIn;
   const [, setUserIDValue] = userID;
   const [, setFirstNameValue] = firstName;
-  const [hasLoginError, setHasLoginError] = React.useState('');
+  const [hasLoginError, setHasLoginError] = React.useState("");
   const nav = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    var email = data.get('email');
-    var password = data.get('password');
+    var email = data.get("email");
+    var password = data.get("password");
 
     if (!password) {
-      setHasLoginError('Invalid credentials!');
+      setHasLoginError("Invalid credentials!");
       return;
     }
     if (!validateEmail(email)) {
-      setHasLoginError('Invalid email!');
+      setHasLoginError("Invalid email!");
       return;
     }
 
     var user = await login(email, password);
-    if (typeof user === 'undefined' || typeof user.user_id === 'undefined') setHasLoginError('Invalid credentials!');
+    if (typeof user === "undefined" || typeof user.user_id === "undefined") setHasLoginError("Invalid credentials!");
     else {
       setIsLoggedInValue(true);
       setUserIDValue(user.user_id);
+      //todo: change all places where first name used to user name
       setFirstNameValue(user.first_name);
-      nav('/');
+      nav("/");
     }
   };
 
   return (
-    <Grid container sx={{ minHeight: '84.7vh', flex: 1 }}>
+    <Grid container sx={{ minHeight: "84.7vh", flex: 1 }}>
       <Grid
         item
         xs={false}
         sm={4}
         md={7}
         sx={{
-          backgroundImage: 'url(' + require('../../images/janjaSignInPhoto.jpg') + ')', //witchcraft
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundImage: "url(" + require("../../images/janjaSignInPhoto.jpg") + ")", //witchcraft
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
@@ -81,12 +82,12 @@ export default function SignIn() {
           sx={{
             my: 8,
             mx: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: '#1976d2' }}>
+          <Avatar sx={{ m: 1, bgcolor: "#1976d2" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">

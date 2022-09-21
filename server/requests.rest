@@ -4,8 +4,9 @@ POST http://localhost:3000/createAccount
 Content-Type: application/json
 
 {
-    "email": "test@gmail.com",
-    "password": "secretpass"
+    "email": "i@gmail.com",
+    "password": "secretpass",
+    "username": "fakeuser"
 }
 
 ###
