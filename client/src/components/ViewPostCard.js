@@ -20,7 +20,7 @@ const ViewPostCard = (props) => {
             {props.date}
           </Typography>
           <Typography gutterBottom variant="h5" component="div">
-            {props.firstName}
+            {props.username}
           </Typography>
         </Grid>
       </CardContent>

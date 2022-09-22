@@ -55,7 +55,6 @@ const Register = () => {
 
     console.log(email, password, username);
     var user = await createAccount(email, password, username);
-    var user;
     if (typeof user === "undefined" || typeof user.user_id === "undefined")
       setHasError("Email or username already in use!");
     else {

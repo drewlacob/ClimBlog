@@ -1,57 +1,57 @@
-import React, { useEffect, useState } from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import { Alert, AlertTitle } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import { Alert, AlertTitle } from "@mui/material";
 
-import { getUserProfile } from '../api/getUserProfile';
-import { updateUserProfile } from '../api/updateUserProfile';
-import { UserContext } from '../UserContext';
-import { validatePassword } from '../utils';
+import { getUserProfile } from "../api/getUserProfile";
+import { updateUserProfile } from "../api/updateUserProfile";
+import { UserContext } from "../UserContext";
+import { validatePassword } from "../utils";
 
+//todo: be able to change username
 const Profile = () => {
-  const { userID, firstName } = React.useContext(UserContext);
+  const { userID, username } = React.useContext(UserContext);
   const [user_id] = userID;
-  const [, setFirstName] = firstName;
+  const [usernameValue] = username;
 
-  const [email, setEmail] = useState('');
-  const [localFirstName, setLocalFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState("");
+  const [localFirstName, setLocalFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState('');
+  const [hasError, setHasError] = useState("");
   const [successfullyUpdated, setSuccessfullyUpdated] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSuccessfullyUpdated(false);
-    setHasError('');
+    setHasError("");
     const data = new FormData(event.currentTarget);
-    var localFirstName = data.get('firstname');
-    var lastName = data.get('lastname');
-    var password = data.get('password');
-    var password2 = data.get('password2');
+    var firstName = data.get("firstname");
+    var lastName = data.get("lastname");
+    var password = data.get("password");
+    var password2 = data.get("password2");
 
     if (password && password.length < 8) {
-      setHasError('Password must be at least 8 characters long!');
+      setHasError("Password must be at least 8 characters long!");
       return;
     }
     if (password !== password2) {
-      setHasError('Passwords do not match!');
+      setHasError("Passwords do not match!");
       return;
     }
     if (password && password2 && !validatePassword(password)) {
-      setHasError('Password must have at least one lowercase letter, one uppercase letter, and one number!');
+      setHasError("Password must have at least one lowercase letter, one uppercase letter, and one number!");
       return;
     }
 
-    const response = await updateUserProfile(user_id, localFirstName, lastName, password);
+    const response = await updateUserProfile(user_id, firstName, lastName, password);
     if (response.email) {
-      setFirstName(localFirstName);
       setSuccessfullyUpdated(true);
     } else {
-      setHasError('Error updating profile. Please try again later!');
+      setHasError("Error updating profile. Please try again later!");
     }
   };
 
@@ -67,9 +67,9 @@ const Profile = () => {
   }, [user_id]);
 
   return (
-    <Grid container direction="column" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', my: 2 }}>
+    <Grid container direction="column" sx={{ display: "flex", alignItems: "center", justifyContent: "center", my: 2 }}>
       <Typography>Your Profile</Typography>
-      <Typography textAlign={'center'}>
+      <Typography textAlign={"center"}>
         Here you can view or change your profile, such as adding your name or changing your password!
       </Typography>
       {!isLoading && (
@@ -78,33 +78,13 @@ const Profile = () => {
           noValidate
           onSubmit={handleSubmit}
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '80vw',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "80vw",
           }}
         >
-          <TextField
-            margin="normal"
-            fullWidth
-            id="firstname"
-            label="First Name"
-            defaultValue={localFirstName == null ? '' : localFirstName}
-            name="firstname"
-            InputLabelProps={{ shrink: localFirstName ? true : false }}
-            onChange={(e) => setLocalFirstName(e.target.value)}
-          />
-          <TextField
-            margin="normal"
-            fullWidth
-            id="lastname"
-            label="Last Name"
-            defaultValue={lastName == null ? '' : lastName}
-            name="lastname"
-            InputLabelProps={{ shrink: lastName ? true : false }}
-            onChange={(e) => setLastName(e.target.value)}
-          />
           <TextField
             margin="normal"
             required
@@ -116,6 +96,37 @@ const Profile = () => {
             autoComplete="email"
             disabled
             InputLabelProps={{ shrink: true }}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            value={usernameValue}
+            disabled
+            InputLabelProps={{ shrink: true }}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            id="firstname"
+            label="First Name"
+            defaultValue={localFirstName == null ? "" : localFirstName}
+            name="firstname"
+            InputLabelProps={{ shrink: localFirstName ? true : false }}
+            onChange={(e) => setLocalFirstName(e.target.value)}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            id="lastname"
+            label="Last Name"
+            defaultValue={lastName == null ? "" : lastName}
+            name="lastname"
+            InputLabelProps={{ shrink: lastName ? true : false }}
+            onChange={(e) => setLastName(e.target.value)}
           />
           {/* TODO: Make current password required to change account info 
           <TextField
@@ -152,7 +163,7 @@ const Profile = () => {
             <Alert
               severity="error"
               variant="filled"
-              sx={{ width: '100%', padding: '6px 0px', '& .MuiAlert-icon': { padding: '7px 7px' } }}
+              sx={{ width: "100%", padding: "6px 0px", "& .MuiAlert-icon": { padding: "7px 7px" } }}
             >
               <AlertTitle>Error</AlertTitle>
               {hasError}
@@ -162,7 +173,7 @@ const Profile = () => {
             <Alert
               severity="success"
               variant="filled"
-              sx={{ width: '100%', padding: '6px 0px', '& .MuiAlert-icon': { padding: '7px 7px' } }}
+              sx={{ width: "100%", padding: "6px 0px", "& .MuiAlert-icon": { padding: "7px 7px" } }}
             >
               <AlertTitle>Success</AlertTitle>
               Your profile has been updated!

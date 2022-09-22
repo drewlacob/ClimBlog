@@ -30,10 +30,10 @@ function Copyright(props) {
 }
 
 export default function SignIn() {
-  const { isLoggedIn, userID, firstName } = React.useContext(UserContext);
+  const { isLoggedIn, userID, username } = React.useContext(UserContext);
   const [, setIsLoggedInValue] = isLoggedIn;
   const [, setUserIDValue] = userID;
-  const [, setFirstNameValue] = firstName;
+  const [, setUsername] = username;
   const [hasLoginError, setHasLoginError] = React.useState("");
   const nav = useNavigate();
 
@@ -58,7 +58,7 @@ export default function SignIn() {
       setIsLoggedInValue(true);
       setUserIDValue(user.user_id);
       //todo: change all places where first name used to user name
-      setFirstNameValue(user.first_name);
+      setUsername(user.username);
       nav("/");
     }
   };

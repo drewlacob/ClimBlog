@@ -74,7 +74,7 @@ export default function EditDialog(props) {
     formData.append("image", selectedFile);
     formData.append("title", title);
     formData.append("date", date);
-    formData.append("first_name", props.firstName);
+    formData.append("username", props.username);
     formData.append("description", description);
     formData.append("grade", grade);
     formData.append("rating", rating);

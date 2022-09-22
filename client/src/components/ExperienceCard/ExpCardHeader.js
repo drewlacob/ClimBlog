@@ -1,5 +1,5 @@
-import React from 'react';
-import { Grid, Typography, Divider } from '@mui/material';
+import React from "react";
+import { Grid, Typography, Divider } from "@mui/material";
 
 const ExpCardHeader = (props) => {
   return (
@@ -10,7 +10,7 @@ const ExpCardHeader = (props) => {
           {props.date}
         </Typography>
         <Typography variant="h5" component="div">
-          {props.firstName}
+          {props.username}
         </Typography>
       </Grid>
       <Divider sx={{ borderWidth: 0.25 }}></Divider>

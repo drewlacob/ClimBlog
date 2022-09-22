@@ -1,11 +1,11 @@
-import { axiosClient } from './api';
+import { axiosClient } from "./api";
 
-export async function createPost(title, date, first_name, description, grade, rating, user_id, imageURL) {
+export async function createPost(title, date, username, description, grade, rating, user_id, imageURL) {
   try {
-    const response = await axiosClient.post('/createPost', {
+    const response = await axiosClient.post("/createPost", {
       title,
       date,
-      first_name,
+      username,
       description,
       grade,
       rating,

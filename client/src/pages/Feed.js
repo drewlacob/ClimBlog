@@ -42,7 +42,7 @@ const Feed = (props) => {
               <ExperienceCard
                 title={post.title}
                 date={post.date}
-                firstName={post.first_name}
+                username={post.username}
                 description={post.description}
                 grade={post.grade}
                 rating={post.rating}

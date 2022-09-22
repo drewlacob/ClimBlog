@@ -11,7 +11,7 @@ const upload = multer({ storage: storage });
 const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString("hex");
 
 router.post("/createPost", upload.single("image"), async (req, res) => {
-  //req: { title, date, first_name, description, grade, rating, user_id, imageURL }, autofilled: post_id, created_at
+  //req: { title, date, username, description, grade, rating, user_id, imageURL }, autofilled: post_id, created_at
   const imageName = randomImageName();
   await mys3.uploadFile(req.file.buffer, imageName, req.file.mimetype);
 
@@ -20,21 +20,21 @@ router.post("/createPost", upload.single("image"), async (req, res) => {
       {
         title: req.body.title,
         date: req.body.date,
-        first_name: req.body.first_name,
+        username: req.body.username,
         description: req.body.description,
         grade: req.body.grade,
         rating: req.body.rating,
         user_id: req.body.user_id,
         image_url: imageName,
       },
-      ["post_id", "title", "date", "first_name", "description", "grade", "rating", "image_url", "user_id"]
+      ["post_id", "title", "date", "username", "description", "grade", "rating", "image_url", "user_id"]
     )
     .then((post) => res.status(200).json(post[0]))
     .catch((err) => res.status(500).json(err));
 });
 
 router.post("/updatePost", upload.single("image"), async (req, res) => {
-  //req: { title, date, first_name, description, grade, rating, user_id, imageURL, post_id }
+  //req: { title, date, username, description, grade, rating, user_id, imageURL, post_id }
 
   //retrieve the current version of the post from the db
   const post = await knex("posts").where({ post_id: req.body.post_id }).select("*");
@@ -59,13 +59,13 @@ router.post("/updatePost", upload.single("image"), async (req, res) => {
       {
         title: req.body.title,
         date: req.body.date,
-        first_name: req.body.first_name,
+        username: req.body.username,
         description: req.body.description,
         grade: req.body.grade,
         rating: req.body.rating,
         image_url: imageName,
       },
-      ["post_id", "title", "date", "first_name", "description", "grade", "rating", "image_url", "user_id"]
+      ["post_id", "title", "date", "username", "description", "grade", "rating", "image_url", "user_id"]
     )
     .then((post) => res.status(200).json(post[0]))
     .catch((err) => res.status(500).json(err));

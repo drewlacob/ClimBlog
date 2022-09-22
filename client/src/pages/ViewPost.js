@@ -52,7 +52,7 @@ const ViewPost = () => {
             <ViewPostCard
               title={post.title}
               date={post.date}
-              firstName={post.first_name}
+              username={post.username}
               description={post.description}
               grade={post.grade}
               rating={post.rating}
@@ -82,7 +82,7 @@ const ViewPost = () => {
             setIsOpen={setIsEditDialogOpen}
             title={post.title}
             date={post.date}
-            firstName={post.first_name}
+            username={post.username}
             description={post.description}
             grade={post.grade}
             rating={post.rating}
