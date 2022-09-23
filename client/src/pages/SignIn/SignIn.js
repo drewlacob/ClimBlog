@@ -57,7 +57,6 @@ export default function SignIn() {
     else {
       setIsLoggedInValue(true);
       setUserIDValue(user.user_id);
-      //todo: change all places where first name used to user name
       setUsername(user.username);
       nav("/");
     }

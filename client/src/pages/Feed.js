@@ -14,7 +14,6 @@ const Feed = (props) => {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [posts, setPosts] = useState([]);
 
-  //todo make feed order by newest at top
   useEffect(() => {
     async function getAndSetPosts() {
       var data;

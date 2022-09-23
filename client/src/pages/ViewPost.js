@@ -42,7 +42,6 @@ const ViewPost = () => {
     setIsEditDialogOpen(true);
   };
 
-  //todo: make mobile version
   return (
     <>
       {!post && <div>Loading...</div>}

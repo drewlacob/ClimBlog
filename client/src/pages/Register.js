@@ -65,8 +65,6 @@ const Register = () => {
       nav("/");
     }
   };
-  //todo: change to user names
-  //todo: change to login with username and password
   //todo later: separate profile, view profile, add friends, etc
   return (
     <Grid container direction="column" sx={{ display: "flex", alignItems: "center", justifyContent: "center", my: 2 }}>

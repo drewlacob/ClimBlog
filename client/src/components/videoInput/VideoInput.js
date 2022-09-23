@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { Button } from '@mui/material';
-import './index.css';
+import { Button } from "@mui/material";
+import "./index.css";
 
 export default function VideoInput(props) {
   const { height } = props;
@@ -21,13 +21,14 @@ export default function VideoInput(props) {
   };
 
   const handleUpload = async () => {
-    console.log('uploading...');
-    console.log('source:', source);
-    const response = await fetch('http://localhost:3000/api/upload', {
+    console.log("uploading...");
+    console.log("source:", source);
+    const response = await fetch("http://localhost:3000/api/upload", {
       //TODO: USE .env
-      method: 'POST',
+      //TODO: redo this for aws
+      method: "POST",
       body: JSON.stringify({ data: source }),
-      headers: { 'Content-Type': 'application/json' },
+      headers: { "Content-Type": "application/json" },
     });
     console.log(response);
     const url = await response.json();

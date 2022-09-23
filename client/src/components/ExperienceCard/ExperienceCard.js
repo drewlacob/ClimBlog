@@ -35,14 +35,18 @@ const ExperienceCard = (props) => {
             />
           </Grid>
           <Grid
-            container
-            direction="column"
-            justifyContent="space-between"
-            alignContent="center"
-            alignItems="center"
+            item
             xs={12}
             sm={6.7}
-            sx={{ ml: 0.5, mr: 0.5 }}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              alignContent: "center",
+              alignItems: "center",
+              ml: 0.5,
+              mr: 0.5,
+            }}
           >
             <Grid item sx={{ width: "100%" }}>
               <ExpCardHeader title={props.title} date={props.date} username={props.username} />
