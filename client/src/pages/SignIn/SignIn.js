@@ -58,7 +58,7 @@ export default function SignIn() {
       setIsLoggedInValue(true);
       setUserIDValue(user.user_id);
       setUsername(user.username);
-      nav("/");
+      nav("/feed");
     }
   };
 

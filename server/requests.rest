@@ -20,13 +20,29 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/getUserProfile
+POST http://localhost:3000/token
 Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJlbWFpbCI6ImJpc2hvcDdyb29rQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDA4JGpXM2libmRHTjhFQXRjSmJRZk5nRnVpU0duU0lNNGpZQmhyY0lJOGdEN2Zwbnh2ZGIzaGJHIiwiZmlyc3RfbmFtZSI6IkRyZXciLCJsYXN0X25hbWUiOiJMYWNvYiIsImNyZWF0ZWRfYXQiOiIyMDIyLTA4LTI2VDIwOjExOjAxLjUwNVoiLCJ1c2VybmFtZSI6ImRyZXdsYWNvYiIsImlhdCI6MTY2Mzk1OTY1OX0.y7WRtwdNsBZNtl_DYdOKywjldxgpIMI0MPofw56rFOY"
+
+}
+###
+POST http://localhost:3000/getUserProfile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfaWQiOjMsImVtYWlsIjoiYmlzaG9wN3Jvb2tAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMDgkalczaWJuZEdOOEVBdGNKYlFmTmdGdWlTR25TSU00allCaHJjSUk4Z0Q3ZnBueHZkYjNoYkciLCJmaXJzdF9uYW1lIjoiRHJldyIsImxhc3RfbmFtZSI6IkxhY29iIiwiY3JlYXRlZF9hdCI6IjIwMjItMDgtMjZUMjA6MTE6MDEuNTA1WiIsInVzZXJuYW1lIjoiZHJld2xhY29iIiwiaWF0IjoxNjYzOTU5NjU5fSwiaWF0IjoxNjYzOTU5NjczLCJleHAiOjE2NjM5NTk2ODh9.zGdryfMca3eKFIehPQZCxtAsH95M-U6XihFiaoYOIlg
 
 {
     "user_id": "2"
 }
 
+###
+DELETE http://localhost:3000/logout
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJlbWFpbCI6ImJpc2hvcDdyb29rQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDA4JGpXM2libmRHTjhFQXRjSmJRZk5nRnVpU0duU0lNNGpZQmhyY0lJOGdEN2Zwbnh2ZGIzaGJHIiwiZmlyc3RfbmFtZSI6IkRyZXciLCJsYXN0X25hbWUiOiJMYWNvYiIsImNyZWF0ZWRfYXQiOiIyMDIyLTA4LTI2VDIwOjExOjAxLjUwNVoiLCJ1c2VybmFtZSI6ImRyZXdsYWNvYiIsImlhdCI6MTY2Mzk1OTY0Mn0.7fEwoVbmoEyJqROoMIK_HTfFBpRlbA_4gxBcgY7XAr8"
+}
 ###
 POST http://localhost:3000/updateUserProfile
 Content-Type: application/json

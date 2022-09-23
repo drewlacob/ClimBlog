@@ -2,6 +2,11 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const { knex } = require("../utils/knex");
+const jwt = require("jsonwebtoken");
+const config = require("../config");
+const { authenticateToken, generateAccessToken } = require("../utils/auth");
+
+let refreshTokens = [];
 
 router.post("/login", async (req, res) => {
   //req = { email, password }
@@ -14,8 +19,21 @@ router.post("/login", async (req, res) => {
 
   if (!user[0]) return res.status(401).json({ err: "Invalid credentials" });
 
-  if (bcrypt.compareSync(req.body.password, user[0].password)) res.status(200).json(user[0]);
-  else res.status(401).json({ err: "Invalid credentials" });
+  //todo fix cant login with jwt
+  //cookie not being set
+  //problems
+  //branch this into new jwt branch?
+  if (bcrypt.compareSync(req.body.password, user[0].password)) {
+    // console.log("secret", config.JWT_ACCESS_TOKEN_SECRET);
+    // console.log("user[0]", user[0]);
+    const accessToken = generateAccessToken(user[0]);
+    console.log("setting cookie");
+    // res.cookie("token", accessToken, { httpOnly: true });
+    const refreshToken = jwt.sign(user[0], config.JWT_REFRESH_TOKEN_SECRET);
+    refreshTokens.push(refreshToken);
+    // return res.json({ accessToken: accessToken, refreshToken: refreshToken });
+    return res.status(200).json(user[0]);
+  } else return res.status(401).json({ err: "Invalid credentials" });
 });
 
 router.post("/createAccount", async (req, res) => {
@@ -35,7 +53,7 @@ router.post("/createAccount", async (req, res) => {
     });
 });
 
-router.post("/getUserProfile", async (req, res) => {
+router.post("/getUserProfile", authenticateToken, async (req, res) => {
   //req = jwt, { user_id }
   knex("users")
     .where({ user_id: req.body.user_id })
@@ -61,6 +79,24 @@ router.post("/updateUserProfile", async (req, res) => {
     )
     .then((user) => res.status(200).json(user[0]))
     .catch((err) => res.status(500).json(err));
+});
+
+router.post("/token", (req, res) => {
+  const refreshToken = req.body.token;
+  if (refreshToken == null) return res.sendStatus(401);
+  if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403);
+  jwt.verify(refreshToken, config.JWT_REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    const accessToken = generateAccessToken({ user });
+    res.json({ accessToken: accessToken });
+  });
+});
+
+router.delete("/logout", (req, res) => {
+  console.log("before delete", refreshTokens);
+  refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
+  console.log("after", refreshTokens);
+  res.sendStatus(204);
 });
 
 module.exports = router;
