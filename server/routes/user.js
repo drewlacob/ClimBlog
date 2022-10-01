@@ -10,6 +10,7 @@ let refreshTokens = [];
 
 router.post("/login", async (req, res) => {
   //req = { email, password }
+  console.log("hit login backend");
   const user = await knex("users")
     .where({ email: req.body.email })
     .select("*")
@@ -19,10 +20,6 @@ router.post("/login", async (req, res) => {
 
   if (!user[0]) return res.status(401).json({ err: "Invalid credentials" });
 
-  //todo fix cant login with jwt
-  //cookie not being set
-  //problems
-  //branch this into new jwt branch?
   if (bcrypt.compareSync(req.body.password, user[0].password)) {
     // console.log("secret", config.JWT_ACCESS_TOKEN_SECRET);
     // console.log("user[0]", user[0]);
@@ -32,6 +29,9 @@ router.post("/login", async (req, res) => {
     const refreshToken = jwt.sign(user[0], config.JWT_REFRESH_TOKEN_SECRET);
     refreshTokens.push(refreshToken);
     // return res.json({ accessToken: accessToken, refreshToken: refreshToken });
+    user[0].accessToken = accessToken;
+    user[0].refreshToken = refreshToken; //TODO: set refresh token as cookie? or where?
+    res.cookie("token", accessToken);
     return res.status(200).json(user[0]);
   } else return res.status(401).json({ err: "Invalid credentials" });
 });

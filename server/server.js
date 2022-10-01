@@ -1,10 +1,17 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 app.use(express.json({ limit: "50mb" }));
-app.use(cors());
+app.use(cookieParser());
+const corsOptions = {
+  credentials: true,
+  origin: true,
+  ///..other options
+};
 
+app.use(cors(corsOptions));
 const port = 3000;
 
 //TODO: ADD JWT TO PROTECT ROUTES
